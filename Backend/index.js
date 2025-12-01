@@ -8,7 +8,6 @@ const authRoutes = require("./routes/authRoutes");
 const protectedRoutes = require("./routes/protectedRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const jobCategoryRoutes = require("./routes/jobCategoryRouters");
-// const jobTypeRoutes = require("./routes/jobTypeRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 
 dotenv.config();
@@ -16,7 +15,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173','https://job-portal-react-v2.vercel.app/'], 
+  origin: ['http://localhost:5173','https://job-portal-react-v2.vercel.app'], 
   credentials: true,
 }));
 
