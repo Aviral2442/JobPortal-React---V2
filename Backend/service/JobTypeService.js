@@ -1,4 +1,4 @@
-const JobType = require('../models/JobType');
+const JobType = require('../models/JobTypeModel');
 const moment = require('moment');
 
 // Get Job Type List with Filters and Pagination
@@ -62,10 +62,14 @@ exports.getJobTypeList = async (query) => {
         .limit(parseInt(limit));
 
     return {
-        jobTypes,
+        result: 200,
+        message: 'Job Type list fetched successfully',
         totalCount,
         currentPage: parseInt(page),
-        totalPages: Math.ceil(totalCount / limit)
+        totalPages: Math.ceil(totalCount / limit),
+        jsonData: {
+            jobTypes: jobTypes
+        }
     };
 }
 
@@ -73,12 +77,16 @@ exports.getJobTypeList = async (query) => {
 exports.createJobType = async (data) => {
     try {
         const newJobType = new JobType({
-            jobType_name: data.jobType_name,
-            jobType_created_at: Math.floor(Date.now() / 1000)
+            job_type_name: data.job_type_name
         });
 
         const savedJobType = await newJobType.save();
-        return { success: true, jobType: savedJobType };
+
+        return {
+            success: 200,
+            message: `Job Type created successfully`,
+            jsonData: savedJobType
+        };
     } catch (error) {
         return { success: false, error: error.message };
     }
