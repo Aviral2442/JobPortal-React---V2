@@ -3,7 +3,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Admin dashboard route
+// ADMIN DASHBOARD ROUTES
 router.get("/admin/dashboard", authMiddleware, (req, res) => {
   if (req.user.role !== "admin") {
     return res.status(403).json({ message: "Access denied. Admins only." });
@@ -11,7 +11,7 @@ router.get("/admin/dashboard", authMiddleware, (req, res) => {
   res.json({ message: "Welcome Admin Dashboard!" });
 });
 
-// User dashboard route
+// USERS DASHBOARD ROUTES
 router.get("/user/dashboard", authMiddleware, (req, res) => {
   if (req.user.role !== "user") {
     return res.status(403).json({ message: "Access denied. Users only." });
