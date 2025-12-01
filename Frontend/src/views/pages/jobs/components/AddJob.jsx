@@ -463,12 +463,10 @@ export default function AddJob() {
         return;
       }
 
-      const linksMap = {};
-      validLinks.forEach((l) => {
-        linksMap[l.label.trim()] = l.url.trim();
-      });
+      // Send as array of formatted strings instead of object
+      const linksArray = validLinks.map((l) => `${l.label.trim()}: ${l.url.trim()}`);
 
-      sectionData = { job_important_links: linksMap };
+      sectionData = { job_important_links: linksArray };
 
     } else if (section === "howToApply") {
       if (!values.howToApply || values.howToApply.trim() === "") {
@@ -1227,41 +1225,41 @@ export default function AddJob() {
                   <Row>
                     <Col md={6}>
                       <FormInput
-                        name="metaDetails.title"
+                        name="metaDetails.job_meta_title"
                         label="Meta Title"
                         sublabel="Max 60 characters"
-                        value={values.metaDetails.title}
+                        value={values.metaDetails.job_meta_title}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        touched={touched.metaDetails?.title}
-                        errors={errors.metaDetails?.title}
+                        touched={touched.metaDetails?.job_meta_title}
+                        errors={errors.metaDetails?.job_meta_title}
                       />
                     </Col>
                     <Col md={6}>
                       <FormInput
-                        name="metaDetails.description"
+                        name="metaDetails.job_meta_description"
                         label="Meta Description"
                         sublabel="Max 160 characters"
-                        value={values.metaDetails.description}
+                        value={values.metaDetails.job_meta_description}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </Col>
                     <Col md={6}>
                       <FormInput
-                        name="metaDetails.keywords"
+                        name="metaDetails.job_meta_keywords"
                         label="Meta Keywords"
                         sublabel="Comma separated, max 10 keywords"
-                        value={values.metaDetails.keywords}
+                        value={values.metaDetails.job_meta_keywords}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </Col>
                     <Col md={6}>
                       <FormInput
-                        name="metaDetails.schemas"
+                        name="metaDetails.job_meta_schemas"
                         label="Meta Schemas"
-                        value={values.metaDetails.schemas}
+                        value={values.metaDetails.job_meta_schemas}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />

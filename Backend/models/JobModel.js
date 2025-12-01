@@ -98,7 +98,7 @@ const JobSchema = new mongoose.Schema(
     selection: [{ type: String }],
 
     // IMPORTANT LINKS
-    job_important_links: [{type: String}],
+    job_important_links: { type: Map, of: String, default: {} },
 
     // HOW TO APPLY
     howToApply: { type: String, required: false },
