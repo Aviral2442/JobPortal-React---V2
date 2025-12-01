@@ -1,6 +1,6 @@
 const jobTypeService = require('../service/JobTypeService');
 
-// Get Job Type List with Filters and Pagination
+// JOB TYPE LIST CONTROLLER
 exports.getJobTypeList = async (req, res) => {
     try {
         const result = await jobTypeService.getJobTypeList(req.query);
@@ -12,7 +12,7 @@ exports.getJobTypeList = async (req, res) => {
     }
 };
 
-// Create Job Type
+// CREATE JOB TYPE CONTROLLER
 exports.createJobType = async (req, res) => {
     try {
         const { job_type_name } = req.body;
@@ -28,12 +28,16 @@ exports.createJobType = async (req, res) => {
     }
 };
 
-// Update Job Type
+// UPDATE JOB TYPE CONTROLLER
 exports.updateJobType = async (req, res) => {
     try {
-        const { id, job_type_name } = req.body;
-        if (!id || !job_type_name) {
-            return res.status(400).json({ status: false, message: 'Job Type ID and name are required' });
+        const { id } = req.params;  
+        const { job_type_name } = req.body;
+        if (!id) {
+            return res.status(400).json({ status: false, message: 'Job Type ID are required' });
+        }
+        if (!job_type_name) {
+            return res.status(400).json({ status: false, message: 'Job Type Name are required' });
         }
         const result = await jobTypeService.updateJobType({ id, job_type_name });
 
