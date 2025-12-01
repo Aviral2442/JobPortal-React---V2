@@ -1,21 +1,71 @@
+const { buildDateFilter } = require('../utils/dateFilters');
+const { buildPagination } = require('../utils/paginationFilters');
 const studentModel = require('../models/studentModel');
 const sendEmailOtp = require('../utils/emailOtp');
 
-exports.studentListService = async () => {
+// STUDENT LIST SERVICE
+exports.studentListService = async (query) => {
     try {
+        const {
+            dateFilter,
+            fromDate,
+            toDate,
+            searchFilter,
+            page,
+            limit
+        } = query;
 
-        
+        let filter = {};
 
+        if (searchFilter) {
+            filter.studentEmail = { $regex: searchFilter, $options: "i" };
+            filter.studentMobileNo = { $regex: searchFilter, $options: "i" };
+        }
+
+        const dateQuery = buildDateFilter({
+            dateFilter,
+            fromDate,
+            toDate,
+            dateField: "studentCreatedAt"
+        });
+
+        filter = { ...filter, ...dateQuery };
+
+        const { skip, limit: finalLimit, currentPage } = buildPagination({
+            dateFilter,
+            fromDate,
+            toDate,
+            searchFilter,
+            page,
+            limit
+        });
+
+        const totalCount = await studentModel.countDocuments(filter);
+        const students = await studentModel.find(filter)
+            .sort({ studentCreatedAt: -1 })
+            .skip(skip)
+            .limit(finalLimit);
+
+        return {
+            result: 200,
+            message: "Student list fetched successfully",
+            totalCount,
+            currentPage,
+            totalPages: Math.ceil(totalCount / finalLimit),
+            jsonData: {
+                students: students
+            }
+        };
     } catch (error) {
         return {
-            status: 500,
-            message: 'An error occurred while fetching student list',
+            result: 500,
+            message: "Internal server error",
             error: error.message
-        }
+        };
     }
 }
 
-// Student Registration Service
+// STUDENT REGISTRATION SERVICE
 exports.studentRegistration = async (studentData) => {
     try {
 
@@ -94,7 +144,7 @@ exports.studentRegistration = async (studentData) => {
     }
 };
 
-// Student Login Service
+// STUDENT LOGIN SERVICE
 exports.studentLogin = async (studentLoginData) => {
     try {
 
@@ -144,7 +194,7 @@ exports.studentLogin = async (studentLoginData) => {
     }
 };
 
-// Student Forget Password Service
+// STUDENT FORGET PASSWORD SERVICE
 exports.studentForgetPassword = async (studentForgetData) => {
     try {
 
@@ -175,6 +225,8 @@ exports.studentForgetPassword = async (studentForgetData) => {
         await student.save();
 
         if (student.studentEmail === forgetEmailOrMobileNo) {
+            console.log('email');
+            
             await sendEmailOtp(student.studentEmail, otp);
 
             return {
@@ -186,7 +238,8 @@ exports.studentForgetPassword = async (studentForgetData) => {
                 }
             };
         } else {
-
+            console.log('mobile');
+            
             return {
                 status: 200,
                 message: 'OTP sent to registered mobile number successfully',
@@ -206,7 +259,7 @@ exports.studentForgetPassword = async (studentForgetData) => {
     }
 };
 
-// Verify Student OTP Service
+// VERIFY STUDENT OTP SERVICE
 exports.verifyStudentOtp = async (studentOtpData) => {
 
     try {
@@ -225,7 +278,7 @@ exports.verifyStudentOtp = async (studentOtpData) => {
                 message: 'Student not found with the provided email or mobile number'
             };
         }
-        
+
         if (studentEmailOrMobile.studentOtp !== studentEnterOtp) {
             return {
                 status: 400,
@@ -259,7 +312,7 @@ exports.verifyStudentOtp = async (studentOtpData) => {
     }
 };
 
-// Reset Student Password Service
+// RESET STUDENT PASSWORD SERVICE
 exports.resetStudentPassword = async (studentPasswordData) => {
     try {
 

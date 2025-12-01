@@ -1,6 +1,16 @@
 const studentService = require("../service/studentService");
 
-// Student Registration Controller
+// STUDENT LIST CONTROLLER
+exports.studentListService = async (req, res) => {
+    try {
+        const result = await studentService.studentListService(req.query);
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json({ status: 500, message: 'Internal server error' });
+    }
+};
+
+// STUDENT REGISTRATION CONTROLLER
 exports.studentRegistration = async (req, res) => {
     try {
         const studentProfilePic = req.file ? `/uploads/StudentProfile/${req.file.filename}` : null;
@@ -11,7 +21,7 @@ exports.studentRegistration = async (req, res) => {
     }
 };
 
-// Student Login Controller
+// STUDENT LOGIN CONTROLLER
 exports.studentLogin = async (req, res) => {
     try {
         const result = await studentService.studentLogin(req.body);
@@ -21,7 +31,7 @@ exports.studentLogin = async (req, res) => {
     }
 };
 
-// Student Forget Password Controller
+// STUDENT FORGET PASSWORD CONTROLLER
 exports.studentForgetPassword = async (req, res) => {
     try {
 
@@ -33,7 +43,7 @@ exports.studentForgetPassword = async (req, res) => {
     }
 };
 
-// Verify Student OTP Controller
+// VERIFY STUDENT OTP CONTROLLER
 exports.verifyStudentOtp = async (req, res) => {
     try {
         const result = await studentService.verifyStudentOtp(req.body);
@@ -43,7 +53,7 @@ exports.verifyStudentOtp = async (req, res) => {
     }
 };
 
-// Reset Student Password Controller
+// RESET STUDENT PASSWORD CONTROLLER
 exports.resetStudentPassword = async (req, res) => {
     try {
         const result = await studentService.resetStudentPassword(req.body);

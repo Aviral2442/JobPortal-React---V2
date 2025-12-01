@@ -4,6 +4,7 @@ const upload = require('../middleware/JobCategoryUploadMidd');
 const studentController = require('../controllers/studentController');
 
 // Student Registration Route
+router.get('/students_list', studentController.studentListService);
 router.post('/student_registration', upload('StudentProfile').single('studentProfilePic'), studentController.studentRegistration);
 router.post('/student_login', studentController.studentLogin);
 router.post('/studentForgetPassword', studentController.studentForgetPassword);
