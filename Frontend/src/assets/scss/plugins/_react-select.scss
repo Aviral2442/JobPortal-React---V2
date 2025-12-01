@@ -1,0 +1,130 @@
+//
+// react select
+//
+
+.react-select {
+    >div {
+        border: $input-border-width solid $input-border-color !important;
+        background-color: $input-bg !important;
+
+        &:hover {
+            border: $input-border-width solid $input-border-color;
+        }
+
+        &:focus {
+            border-color: var(--#{$prefix}dark-border-subtle) !important;
+            box-shadow: 0 0 0 .2rem rgba(var(--#{$prefix}primary-rgb), .25) !important;
+            outline: 0 !important;
+        }
+    }
+}
+
+.react-select__control--is-focused {
+    border-color: var(--#{$prefix}dark-border-subtle) !important;
+    box-shadow: 0 0 0 .2rem rgba(var(--#{$prefix}primary-rgb), .25) !important;
+    outline: 0 !important;
+}
+
+.react-select__indicator-separator {
+    display: none !important;
+}
+
+.react-select__indicator {
+    svg {
+        fill: #8a969c !important;
+        stroke: #8a969c !important;
+    }
+}
+
+.react-select__input-container,
+.react-select__dropdown-indicator {
+    color: var(--#{$prefix}body-color) !important;
+}
+
+.react-select__menu {
+    background-color: $dropdown-bg !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: $dropdown-border-radius !important;
+    z-index: $zindex-dropdown !important;
+}
+
+.react-select__menu-list {
+    border: $dropdown-border-width solid $dropdown-border-color !important;
+    border-radius: $dropdown-border-radius !important;
+}
+
+.react-select__option {
+    padding: $dropdown-item-padding-y $dropdown-item-padding-x !important;
+    color: $dropdown-link-color !important;
+
+    &:hover {
+        color: $dropdown-link-hover-color !important;
+        background-color: $dropdown-link-hover-bg !important;
+    }
+}
+
+.react-select__option--is-focused,
+.react-select__option--is-selected {
+    color: $dropdown-link-hover-color !important;
+    background-color: $dropdown-link-hover-bg !important;
+}
+.react-select__single-value {
+    color: var(--#{$prefix}body-color) !important;
+}
+
+.react-select__multi-value {
+    background-color: rgba( var(--#{$prefix}primary-rgb), 0.2) !important;
+    color:  var(--#{$prefix}primary) !important;
+
+    .react-select__multi-value__label {
+        color:  var(--#{$prefix}primary);
+    }
+
+    .react-select__multi-value__remove {
+        &:hover {
+            background-color: rgba($primary, 0.2) !important;
+            color:  var(--#{$prefix}primary) !important;
+        }
+    }
+}
+
+// react-bootstrap-typeahead style
+.rbt-token {
+    background-color: rgba( var(--#{$prefix}primary-rgb), 0.2) !important;
+    color:  var(--#{$prefix}primary) !important;
+
+    .rbt-token-remove-button {
+        background-color: transparent;
+        border: none;
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    }
+}
+
+.rbt-input-multi.focus {
+    background-color: $input-focus-bg !important;
+    border-color: var(--#{$prefix}dark-border-subtle) !important;
+    box-shadow: 0 0 0 .2rem rgba(var(--#{$prefix}primary-rgb), .25) !important;
+    outline: 0 !important;
+}
+
+
+.rbt-input-multi {
+    .rbt-input-hint {
+        color: var(--#{$prefix}body-color) !important;
+    }
+
+    box-shadow: none !important;
+    background-color: $input-focus-bg !important;
+    border-color: $input-border-color !important;
+}

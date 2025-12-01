@@ -1,0 +1,206 @@
+// 
+// Vintage Theme Mode
+//
+
+$theme-vintage-colors: (
+  "primary":   #5C4033,   // rich sepia brown – classic vintage base
+  "secondary": #6C7A89,   // dusty slate blue – aged elegance
+  "success":   #7C9A7C,   // muted olive green – timeless nature
+  "info":      #AAB7B8,   // weathered silver – foggy antique feel
+  "warning":   #D4A35A,   // burnt ochre – aged parchment warmth
+  "danger":    #8B4F4B,   // antique rose – subtle emotional depth
+  "purple":    #9D8BAF,   // faded lavender – floral vintage hue
+  "light":     #F1E8DC    // aged paper – soft background tone
+);
+
+@if $theme-vintage ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+
+    html[data-skin="vintage"] {
+
+        --#{$prefix}font-sans-serif:        "Roboto Slab", serif;
+
+        --#{$prefix}body-bg:               #ffffff;
+        --#{$prefix}body-color:                     #5C4033;
+        --#{$prefix}body-color-rgb:         #{to-rgb(#5C4033)};
+        --#{$prefix}secondary-bg:          #ffffff;
+        --#{$prefix}secondary-color:          #786b51;
+
+        --#{$prefix}tertiary-color:       rgba(#{to-rgb(#5C4033)}, .5);
+        --#{$prefix}tertiary-bg:          #f9faf5;
+        --#{$prefix}emphasis-color:       rgba(#{to-rgb(#5C4033)}, .5);
+
+        --#{$prefix}border-color:                #f7f0ed;
+        --#{$prefix}border-color-translucent:    #786b51;
+
+        --#{$prefix}border-radius:               .2rem;
+        --#{$prefix}border-radius-sm:            .1rem;
+        --#{$prefix}border-radius-lg:            .3rem;
+        --#{$prefix}border-radius-xl:            .2rem;
+
+        --#{$prefix}font-weight-medium:      500;
+        --#{$prefix}font-weight-semibold:    700;
+        --#{$prefix}font-weight-bold:        700;
+
+        --#{$prefix}font-size-xxs:          11px;
+        --#{$prefix}font-size-xs:           12px;
+        --#{$prefix}font-size-base:         13px;
+        --#{$prefix}font-size-md:           14px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:                           #5C4033;
+        --#{$prefix}chart-primary-rgb:                       #{to-rgb(#5C4033)};
+        --#{$prefix}chart-secondary:                         #7a5a26;
+        --#{$prefix}chart-secondary-rgb:                     #{to-rgb(#7a5a26)};
+        --#{$prefix}chart-gray:                              #f7f0ed;
+        --#{$prefix}chart-gray-rgb:                          #{to-rgb(#f7f0ed)};
+        --#{$prefix}chart-dark:                              #523b0d;
+        --#{$prefix}chart-dark-rgb:                          #{to-rgb(#523b0d)};
+        --#{$prefix}chart-border-color:                      #ecf4fc;
+        --#{$prefix}chart-title-color:                      #786b51;
+
+        --#{$prefix}link-color:                     #5C4033;
+
+        //Sidenav
+        --#{$prefix}sidenav-item-font-weight:                400;
+
+
+        @each $name, $value in $theme-vintage-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-vintage-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-vintage-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-vintage-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-vintage-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #f9faf5;
+            --#{$prefix}sidenav-border-color:             #f7f0ed;
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #5C4033;
+            --#{$prefix}sidenav-item-hover-bg:          #f1f3e7;
+            --#{$prefix}sidenav-item-active-color:        #5C4033;
+            --#{$prefix}sidenav-item-active-bg:         #f1f3e7;
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg:                  #2c2926; // vintage dark base
+            --#{$prefix}sidenav-border-color:        #4d4439; // subtle warm border
+            --#{$prefix}sidenav-item-color:          #897c62; // muted text
+            --#{$prefix}sidenav-item-hover-color:    #f0d4a0; // golden hover text
+            --#{$prefix}sidenav-item-hover-bg:       #38332e; // darker sepia hover bg
+            --#{$prefix}sidenav-item-active-color:   #f5eada; // light cream active text
+            --#{$prefix}sidenav-item-active-bg:      #3f3933; // stronger contrast for active
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                  #2c2926; // vintage dark base
+            --#{$prefix}sidenav-border-color:        #4d4439; // subtle warm border
+            --#{$prefix}sidenav-item-color:          #b5a88c; // muted text
+            --#{$prefix}sidenav-item-hover-color:    #f0d4a0; // golden hover text
+            --#{$prefix}sidenav-item-hover-bg:       #38332e; // darker sepia hover bg
+            --#{$prefix}sidenav-item-active-color:   #f5eada; // light cream active text
+            --#{$prefix}sidenav-item-active-bg:      #3f3933; // stronger contrast for active
+        }
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                  #2e2b28; // Matches vintage dark body
+            --#{$prefix}topbar-item-color:          #d3c5a5; // Warm parchment text
+            --#{$prefix}topbar-item-hover-color:    #f0d4a0; // Golden hover effect
+            --#{$prefix}topbar-search-bg:           #39342f; // Sepia search input
+            --#{$prefix}topbar-search-border:       #4b4035; // Slightly defined border
+        }
+
+        // Topbar (Vintage Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                  #2e2b28; // Matches vintage dark body
+            --#{$prefix}topbar-item-color:          #d3c5a5; // Warm parchment text
+            --#{$prefix}topbar-item-hover-color:    #f0d4a0; // Golden hover effect
+            --#{$prefix}topbar-search-bg:           #39342f; // Sepia search input
+            --#{$prefix}topbar-search-border:       #4b4035; // Slightly defined border
+        }
+
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="vintage"] {
+                // Body
+                --#{$prefix}body-bg:                   #2e2b28; // muted dark brown
+                --#{$prefix}body-color:               #cbbfa3; // aged parchment
+                --#{$prefix}body-color-rgb:           #{to-rgb(#cbbfa3)};
+                --#{$prefix}heading-color:            #f2e9d8; // lighter warm beige
+
+                // Backgrounds
+                --#{$prefix}secondary-bg:             #3a3530; // dark sepia
+                --#{$prefix}tertiary-bg:              #48413b;
+                --#{$prefix}light:                    #5b5248;
+                --#{$prefix}light-rgb:                #{to-rgb(#5b5248)};
+                --#{$prefix}light-bg-subtle:          rgba(#{to-rgb(#5b5248)}, 0.4);
+                --#{$prefix}dark:                     #4e4a45;
+                --#{$prefix}dark-rgb:                 #{to-rgb(#4e4a45)};
+
+                // Text & Color
+                --#{$prefix}secondary-color:          #cbbfa3;
+                --#{$prefix}tertiary-color:           rgba(#{to-rgb(#cbbfa3)}, 0.5);
+                --#{$prefix}emphasis-color:           rgba(#{to-rgb(#f2e9d8)}, 0.5);
+                --#{$prefix}link-color:               #f2e9d8;
+                --#{$prefix}link-color-rgb:           #{to-rgb(#f2e9d8)};
+
+                // Border & Shadow
+                --#{$prefix}border-color:             #4d4439;
+                --#{$prefix}border-color-translucent: #867c6c;
+                --#{$prefix}box-shadow:               0px 0px 30px rgba(17, 14, 11, 0.5);
+
+                // Primary Theme Color (Vintage gold)
+                --#{$prefix}primary:                  #d2aa6d;
+                --#{$prefix}primary-rgb:              #{to-rgb(#d2aa6d)};
+                --#{$prefix}primary-bg-subtle:        rgba(#{to-rgb(#d2aa6d)}, 0.2);
+                --#{$prefix}primary-text-emphasis:    #f3d7a7;
+
+                // Charts
+                --#{$prefix}chart-primary:            #d2aa6d;
+                --#{$prefix}chart-primary-rgb:        #{to-rgb(#d2aa6d)};
+                --#{$prefix}chart-secondary:          #a98467;
+                --#{$prefix}chart-secondary-rgb:      #{to-rgb(#a98467)};
+                --#{$prefix}chart-gray:               #cfc2ad;
+                --#{$prefix}chart-gray-rgb:           #{to-rgb(#cfc2ad)};
+                --#{$prefix}chart-dark:               #4b4035;
+                --#{$prefix}chart-dark-rgb:           #{to-rgb(#4b4035)};
+                --#{$prefix}chart-border-color:       #484037;
+                --#{$prefix}chart-title-color:        #e8dbc4;
+            }
+
+        }
+    }
+}

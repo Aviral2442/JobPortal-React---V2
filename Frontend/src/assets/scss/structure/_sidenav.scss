@@ -1,0 +1,363 @@
+//
+// _sidenav.scss
+//
+
+.sidenav-menu {
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    top: $topbar-height;
+    width: $sidenav-width;
+    background: $sidenav-bg;
+    box-shadow: $card-box-shadow;
+    border-right: $card-border-width solid $sidenav-border-color;
+    transition: width .25s ease-in-out;
+
+    [data-simplebar] {
+        height: calc(100% - 41px);
+    }
+}
+
+// Side-nav
+.side-nav {
+    padding-left: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    .side-nav-item {
+
+        .side-nav-link {
+            display: flex;
+            align-items: center;
+            gap: $sidenav-item-gap;
+            position: relative;
+            white-space: nowrap;
+            color: $sidenav-item-color;
+            width: 100%;
+            background: transparent;
+            border: transparent;
+            transition: color .25s ease-in-out;
+            font-size: $sidenav-item-font-size;
+            font-weight: $sidenav-item-font-weight;
+            padding: $sidenav-item-padding-y $sidenav-item-padding-x;
+            border-radius: 50em;
+
+            &:hover,
+            &:focus,
+            &:active {
+                color: $sidenav-item-hover-color;
+                background-color: $sidenav-item-hover-bg;
+            }
+
+            .menu-icon {
+                font-size: $sidenav-item-icon-size;
+                line-height: $sidenav-item-icon-size;
+
+                i {
+                    font-size: $sidenav-item-icon-size;
+                    line-height: $sidenav-item-icon-size;
+                }
+
+                svg {
+                    height: $sidenav-item-icon-size;
+                    width: $sidenav-item-icon-size;
+                    fill: rgba(var(--#{$prefix}dark-rgb), 0.1);
+                }
+            }
+
+            .menu-text {
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .badge {
+                margin-left: auto;
+            }
+
+            &.disabled {
+                pointer-events: none;
+                cursor: default;
+                opacity: 0.5;
+            }
+        }
+    }
+
+    // Multi Level Menu
+    .sub-menu {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        padding-left: calc($sidenav-item-icon-size + $sidenav-item-gap);
+        padding-bottom: 10px;
+
+        .side-nav-item {
+            border-top: 0;
+
+            .side-nav-link {
+                text-transform: none;
+                font-size: $sidenav-sub-item-font-size;
+                font-weight: $sidenav-sub-item-font-weight;
+                padding: $sidenav-sub-item-padding-y $sidenav-item-padding-x;
+            }
+        }
+
+        .sub-menu {
+            padding-left: 15px;
+            padding-bottom: 0px;
+        }
+    }
+
+    .side-nav-title {
+        pointer-events: none;
+        cursor: default;
+        white-space: nowrap;
+        text-transform: uppercase;
+        color: $sidenav-item-color;
+        font-weight: $font-weight-semibold;
+        font-size: calc($sidenav-item-font-size * 0.8);
+        padding: $sidenav-item-padding-y calc($sidenav-item-padding-x * 1);
+    }
+
+    // Active Menu
+    >.side-nav-item.active {
+
+        >a,
+        >button {
+            color: $sidenav-item-active-color;
+            background-color: $sidenav-item-active-bg;
+            font-weight: $font-weight-semibold;
+
+            .menu-arrow {
+                transform: rotate(-180deg);
+            }
+        }
+
+        .side-nav-item.active {
+            >a,
+            >button {
+                color: $sidenav-item-active-color;
+                font-weight: $font-weight-semibold;
+
+                .menu-arrow {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+    }
+}
+
+.menu-arrow {
+    margin-left: auto;
+    transition: transform .1s ease-in-out;
+}
+
+[aria-expanded="true"] {
+    .menu-arrow {
+        transform: rotate(-180deg);
+    }
+}
+
+// sidenav user
+.sidenav-user {
+    padding: 12px;
+    display: none;
+    color: $sidenav-item-color;
+    background-size: cover !important;
+    margin: 15px 12px 5px 12px;
+    border-radius: 5px;
+
+    .sidenav-user-name {
+        white-space: nowrap;
+        display: block;
+        color: $sidenav-item-color;
+    }
+
+    html[data-sidenav-user="true"] &{
+        display: block;
+    }
+
+    html[data-sidenav-color="dark"] &{
+        border-color: rgba(255,255,255,0.1) !important;
+    }
+}
+
+// Hover View Menu
+html[data-sidenav-size="collapse"] {
+
+    .content-page {
+        margin-left: $sidenav-width-sm;
+    }
+
+    .sidenav-menu:not(:hover) {
+        width: $sidenav-width-sm;
+
+        .simplebar-scrollbar:before {
+            background: transparent;
+        }
+
+        .logo {
+            .logo-sm {
+                display: block;
+            }
+
+            .logo-lg {
+                display: none;
+            }
+        }
+
+        .side-nav-item {
+            .side-nav-link {
+                justify-content: center;
+                padding: calc($sidenav-item-padding-y * 1.5) $sidenav-item-padding-x;
+
+                .menu-text,
+                .menu-arrow,
+                .badge {
+                    display: none;
+                }
+
+                .menu-icon {
+                    font-size: calc($sidenav-item-icon-size * 1.25);
+
+                    i {
+                        font-size: calc($sidenav-item-icon-size * 1.25);
+                    }
+
+                    svg {
+                        height: calc($sidenav-item-icon-size * 1.25);
+                        width: calc($sidenav-item-icon-size * 1.25);
+                    }
+                }
+            }
+        }
+
+        .side-nav-title {
+            display: none;
+        }
+
+        .sidenav-user,
+        .menu-text {
+            position: fixed;
+            right: -100%;
+        }
+
+        .collapsing,
+        .collapse {
+            height: 0 !important;
+        }
+
+        .sub-menu {
+            height: 0 !important;
+            opacity: 0;
+        }
+    }
+
+    .sidenav-menu:hover {
+        box-shadow: var(--#{$prefix}box-shadow);
+    }
+
+    .sidenav-menu {
+        .simplebar-horizontal .simplebar-scrollbar:before {
+            background: transparent;
+        }
+
+        .logo {
+            text-align: left;
+        }
+    }
+}
+
+// Offcanvas Menu
+html[data-sidenav-size="offcanvas"] {
+
+    .logo-topbar {
+        display: none;
+
+        @include media-breakpoint-up(lg) {
+            display: inline-block;
+        }
+    }
+
+    @include media-breakpoint-down(lg) {
+        .app-topbar {
+            .topbar-menu {
+                padding-left: $grid-gutter-width;
+            }
+        }
+    }
+
+    .content-page,
+    .app-topbar {
+        margin-left: 0;
+    }
+
+    .button-close-offcanvas {
+        display: block;
+    }
+
+    .sidenav-menu {
+        margin-left: calc($sidenav-width * -1);
+        top: 0;
+        opacity: 0;
+        transition: all .25s ease-in-out;
+
+        .logo {
+            text-align: left;
+        }
+    }
+
+    &.sidebar-enable {
+        .sidenav-menu {
+            opacity: 1;
+            z-index: 1055;
+            margin-left: 0;
+        }
+    }
+}
+
+// 
+// Menu Collpase Btn
+//
+.menu-collapse-box {
+    background: $sidenav-bg;
+    border-top: $card-border-width solid $sidenav-border-color;
+    padding: 0 10px;
+    
+    .button-collapse-toggle {
+        padding: $sidenav-item-padding-y $sidenav-item-padding-x;
+        display: flex;
+        min-height: 40px;
+        align-items: center;
+        color: $sidenav-item-color;
+        gap: $sidenav-item-gap;
+        transition: color .25s ease-in-out;
+        font-weight: $sidenav-item-font-weight;
+
+        &:hover {
+            color: $sidenav-item-hover-color;
+        }
+
+        svg {
+            height: $sidenav-item-icon-size;
+            width: $sidenav-item-icon-size;
+            fill: rgba(var(--#{$prefix}dark-rgb), 0.1)
+        }
+
+        span {
+            white-space: nowrap;
+        }
+    }
+}
+
+html[data-sidenav-size="collapse"] {
+        .sidenav-menu:not(:hover) {
+            .button-collapse-toggle {
+                span {
+                    display: none;
+                }
+            }
+        }
+        
+    }

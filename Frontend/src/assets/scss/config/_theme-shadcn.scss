@@ -1,0 +1,84 @@
+// 
+// Default Theme (theme-shadcn)
+//
+
+
+@if $theme-shadcn ==true {
+
+    // Background Light left-sidebar
+    html[data-sidenav-color="light"] {
+        --#{$prefix}sidenav-bg: #ffffff;
+        --#{$prefix}sidenav-border-color: #{$gray-200};
+        --#{$prefix}sidenav-item-color: #63666a;
+        --#{$prefix}sidenav-item-hover-color: #23303c;
+        --#{$prefix}sidenav-item-hover-bg: #f3f4f6;
+        --#{$prefix}sidenav-item-active-color: #23303c;
+        --#{$prefix}sidenav-item-active-bg: #f3f4f6;
+    }
+
+    // Dark Left Sidebar
+    html[data-sidenav-color="dark"] {
+        --#{$prefix}sidenav-bg: #1c1d28;
+        --#{$prefix}sidenav-border-color: #1c1d28;
+        --#{$prefix}sidenav-item-color: #6c7889;
+        --#{$prefix}sidenav-item-hover-color: #bccee4;
+        --#{$prefix}sidenav-item-hover-bg: #20222e;
+        --#{$prefix}sidenav-item-active-color: #ced6df;
+        --#{$prefix}sidenav-item-active-bg: #20222e;
+    }
+
+    // Dark Mode
+    html[data-bs-theme="dark"][data-sidenav-color="dark"],
+    html[data-bs-theme="dark"][data-sidenav-color="light"] {
+        --#{$prefix}sidenav-bg: #1e1f27;
+        --#{$prefix}sidenav-border-color: #2c2d38;
+        --#{$prefix}sidenav-item-color: #6c7889;
+        --#{$prefix}sidenav-item-hover-color: #bccee4;
+        --#{$prefix}sidenav-item-hover-bg: #22232c;
+        --#{$prefix}sidenav-item-active-color: #ced6df;
+        --#{$prefix}sidenav-item-active-bg: #22232c;
+    }
+
+    // Light Topbar
+    html[data-topbar-color="light"] {
+        --#{$prefix}topbar-bg: #ffffff;
+        --#{$prefix}topbar-item-color: #63666a;
+        --#{$prefix}topbar-item-hover-color: #{$primary};
+        --#{$prefix}topbar-search-bg: transparent;
+        --#{$prefix}topbar-search-border: #e7e9eb;
+    }
+
+    // Dark Topbar
+    html[data-topbar-color="dark"] {
+        --#{$prefix}topbar-bg: #252630;
+        --#{$prefix}topbar-item-color: #adb5bf;
+        --#{$prefix}topbar-item-hover-color: #e0eeff;
+        --#{$prefix}topbar-search-bg: #2d2e3c;
+        --#{$prefix}topbar-search-border: #2d2e3c;
+    }
+
+    // Topbar (Dark Mode)
+    html[data-bs-theme="dark"][data-topbar-color="light"],
+    html[data-bs-theme="dark"][data-topbar-color="dark"] {
+        --#{$prefix}topbar-bg: #252630;
+        --#{$prefix}topbar-item-color: #adb5bf;
+        --#{$prefix}topbar-item-hover-color: #e0eeff;
+        --#{$prefix}topbar-search-bg: #2d2e3c;
+        --#{$prefix}topbar-search-border: #2d2e3c;
+    }
+}
+
+/* Dark Mode */
+@if $enable-dark-mode {
+    @include color-mode(dark, true) {
+        --#{$prefix}primary: #44a887;
+        --#{$prefix}primary-rgb: #{to-rgb(#44a887)};
+        --#{$prefix}primary-bg-subtle: rgba(#{to-rgb(#44a887)}, 0.2);
+        --#{$prefix}primary-text-emphasis: #6bd1af;
+        --#{$prefix}light: #252630;
+        --#{$prefix}light-rgb: #{to-rgb(#252630)};
+        --#{$prefix}dark: #4b4d5c;
+        --#{$prefix}dark-rgb: #{to-rgb(#4b4d5c)};
+        --#{$prefix}box-shadow: #{0px 0px 30px rgba(0, 0, 0, 0.3)};
+    }
+}

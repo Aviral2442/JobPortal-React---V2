@@ -1,0 +1,209 @@
+// 
+// Nature Theme Mode
+//
+
+$theme-nature-colors: (
+  "primary":   #374836,   // deep forest green – grounded, brand-like
+  "secondary": #A3C9A8,   // soft sage – gentle and fresh
+  "success":   #6DBE45,   // leafy green – vibrant and optimistic
+  "info":      #6BBBA1,   // soft teal – calm and clean
+  "warning":   #D4A748,   // earthy amber – warm and muted
+  "danger":    #9B4A3C,   // clay red – rich and natural
+  "purple":    #826F8C,   // muted lavender – soft and wild
+  "dark":      #4B5E48,   // dense green foliage – strong and subtle
+  "light":     #EFF5EB    // pale moss – airy and natural
+);
+
+
+@if $theme-nature ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+    html[data-skin="nature"] {
+
+        --#{$prefix}font-sans-serif:        "Rubik", sans-serif;
+
+        --#{$prefix}body-bg:               #f9fbf3;
+        --#{$prefix}body-color:                     #374836;
+        --#{$prefix}body-color-rgb:         #{to-rgb(#374836)};
+        --#{$prefix}secondary-bg:          #f9fbf3;
+        --#{$prefix}secondary-color:          #374836;
+
+        --#{$prefix}tertiary-color:       rgba(#{to-rgb(#374836)}, .5);
+        --#{$prefix}tertiary-bg:          #edefe5;
+        --#{$prefix}emphasis-color:       rgba(#{to-rgb(#374836)}, .5);
+
+        --#{$prefix}border-color:                #e4e7d9;
+        --#{$prefix}border-color-translucent:    #786b51;
+
+        --#{$prefix}border-radius:               .3rem;
+        --#{$prefix}border-radius-sm:            .25rem;
+        --#{$prefix}border-radius-lg:            .4rem;
+        --#{$prefix}border-radius-xl:            .5rem;
+
+        --#{$prefix}font-weight-medium:      400;
+        --#{$prefix}font-weight-semibold:    500;
+        --#{$prefix}font-weight-bold:        600;
+
+        --#{$prefix}font-size-xxs:          11px;
+        --#{$prefix}font-size-xs:           12px;
+        --#{$prefix}font-size-base:         13px;
+        --#{$prefix}font-size-md:           14px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:               #374836; // Deep forest green
+        --#{$prefix}chart-primary-rgb:           #{to-rgb(#374836)};
+
+        --#{$prefix}chart-secondary:             #A3C9A8; // Soft sage green
+        --#{$prefix}chart-secondary-rgb:         #{to-rgb(#A3C9A8)};
+
+        --#{$prefix}chart-gray:                  #DDEBE0; // Misty green-gray
+        --#{$prefix}chart-gray-rgb:              #{to-rgb(#DDEBE0)};
+
+        --#{$prefix}chart-dark:                  #5E8C61; // Earthy olive green
+        --#{$prefix}chart-dark-rgb:              #{to-rgb(#5E8C61)};
+
+        --#{$prefix}chart-border-color:                      #ecf4fc;
+        --#{$prefix}chart-title-color:                      #bbcae1;
+
+        //Sidenav
+        --#{$prefix}sidenav-item-font-weight:                400;
+
+
+        @each $name, $value in $theme-nature-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-nature-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-nature-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-nature-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-nature-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #f9fbf3;
+            --#{$prefix}sidenav-border-color:             #e4e7d9;
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #374836;
+            --#{$prefix}sidenav-item-hover-bg:          #edefe5;
+            --#{$prefix}sidenav-item-active-color:        #374836;
+            --#{$prefix}sidenav-item-active-bg:         #edefe5;
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg:                     #233022;
+            --#{$prefix}sidenav-border-color:           #233022;
+            --#{$prefix}sidenav-item-color:             #6c7a6f;
+            --#{$prefix}sidenav-item-hover-color:       #ddebe0;
+            --#{$prefix}sidenav-item-hover-bg:          #313e30;
+            --#{$prefix}sidenav-item-active-color:      #ddebe0;
+            --#{$prefix}sidenav-item-active-bg:         #313e30;
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                     #293228;
+            --#{$prefix}sidenav-border-color:           #293228;
+            --#{$prefix}sidenav-item-color:             #6c7a6f;
+            --#{$prefix}sidenav-item-hover-color:       #ddebe0;
+            --#{$prefix}sidenav-item-hover-bg:          #313e30;
+            --#{$prefix}sidenav-item-active-color:      #ddebe0;
+            --#{$prefix}sidenav-item-active-bg:         #313e30;
+        }
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #edefe5;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                      #2e3c2d;
+            --#{$prefix}topbar-item-color:              #819184;
+            --#{$prefix}topbar-item-hover-color:        #ddebe0;
+            --#{$prefix}topbar-search-bg:               #384837;
+            --#{$prefix}topbar-search-border:           #384837;
+        }
+
+        // Topbar (Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"]{
+            --#{$prefix}topbar-bg:                      #2e3c2d;
+            --#{$prefix}topbar-item-color:              #819184;
+            --#{$prefix}topbar-item-hover-color:        #ddebe0;
+            --#{$prefix}topbar-search-bg:               #384837;
+            --#{$prefix}topbar-search-border:           #384837;
+        }
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="nature"] {
+                // Body
+                --#{$prefix}body-bg:                     #233022;
+                --#{$prefix}body-color:                 #9eafa1;
+                --#{$prefix}body-color-rgb:             #{to-rgb(#9eafa1)};
+                --#{$prefix}heading-color:              #ddebe0;
+
+                // Backgrounds
+                --#{$prefix}secondary-bg:               #2c3a2b;
+                --#{$prefix}tertiary-bg:                #344433;
+                --#{$prefix}light:                      #3c4c3b;
+                --#{$prefix}light-rgb:                  #{to-rgb(#3c4c3b)};
+                --#{$prefix}light-bg-subtle:            rgba(#{to-rgb(#3c4c3b)}, 0.4);
+                --#{$prefix}dark:                       #4d554b;
+                --#{$prefix}dark-rgb:                   #{to-rgb(#4d554b)};
+
+                // Text & Color
+                --#{$prefix}secondary-color:            #9eafa1;
+                --#{$prefix}tertiary-color:             rgba(#{to-rgb(#9eafa1)}, 0.5);
+                --#{$prefix}emphasis-color:             rgba(#{to-rgb(#ddebe0)}, 0.5);
+                --#{$prefix}link-color:                 #ddebe0;
+                --#{$prefix}link-color-rgb:             #{to-rgb(#ddebe0)};
+
+                // Border & Shadow
+                --#{$prefix}border-color:               #314034;
+                --#{$prefix}border-color-translucent:   #6c7a6f;
+                --#{$prefix}box-shadow:                 0px 0px 30px rgba(22, 29, 20, 0.4);
+
+                // Primary Theme Color (Earthy gold tone for accent)
+                --#{$prefix}primary:                    #B28A40;
+                --#{$prefix}primary-rgb:                #{to-rgb(#B28A40)};
+                --#{$prefix}primary-bg-subtle:          rgba(#{to-rgb(#B28A40)}, 0.2);
+                --#{$prefix}primary-text-emphasis:      #e0b76a;
+
+                // Charts
+                --#{$prefix}chart-primary:              #B28A40;
+                --#{$prefix}chart-primary-rgb:          #{to-rgb(#B28A40)};
+                --#{$prefix}chart-secondary:            #7a5a26;
+                --#{$prefix}chart-secondary-rgb:        #{to-rgb(#7a5a26)};
+                --#{$prefix}chart-gray:                 #e5dccb;
+                --#{$prefix}chart-gray-rgb:             #{to-rgb(#e5dccb)};
+                --#{$prefix}chart-dark:                 #3c4c3b;
+                --#{$prefix}chart-dark-rgb:             #{to-rgb(#3c4c3b)};
+                --#{$prefix}chart-border-color:         #364437;
+                --#{$prefix}chart-title-color:          #b9c3b5;
+            }
+
+        }
+    }
+}

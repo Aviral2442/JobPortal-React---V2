@@ -1,0 +1,170 @@
+// 
+// Flat Theme Mode
+//
+
+$theme-flat-colors: (
+    "primary":   #3498db, // flat blue – bold and clean
+    "secondary": #95a5a6, // flat gray – neutral and modern
+    "success":   #2ecc71, // flat green – clean and vibrant
+    "info":      #1abc9c, // flat turquoise – fresh and energetic
+    "warning":   #f1c40f, // flat yellow – sharp and alert
+    "danger":    #e74c3c, // flat red – intense but modern
+    "purple":    #9b59b6, // flat purple – balanced and elegant
+    "dark":      #34495e, // flat navy – deep and stable
+    "light":     #ecf0f1  // flat light gray – minimal and fresh
+);
+
+
+
+@if $theme-flat ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+    html[data-skin="flat"] {
+
+        --#{$prefix}font-sans-serif:        "Nunito", sans-serif;
+
+        --#{$prefix}body-bg:               #ffffff;
+        --#{$prefix}secondary-bg:          #f8fafb;
+
+        --#{$prefix}border-color:                #e2e9ed;
+
+
+        --#{$prefix}border-radius:               .3rem;
+        --#{$prefix}border-radius-sm:            .25rem;
+        --#{$prefix}border-radius-lg:            .4rem;
+        --#{$prefix}border-radius-xl:            .5rem;
+
+        --#{$prefix}font-weight-medium:      500;
+        --#{$prefix}font-weight-semibold:    700;
+        --#{$prefix}font-weight-bold:        700;
+
+        --#{$prefix}font-size-xxs:          12px;
+        --#{$prefix}font-size-xs:           13px;
+        --#{$prefix}font-size-base:         0.875rem;
+        --#{$prefix}font-size-md:           15px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:                           #3498db;
+        --#{$prefix}chart-primary-rgb:                       #{to-rgb(#3498db)};
+        --#{$prefix}chart-secondary:                         #2ecc71;
+        --#{$prefix}chart-secondary-rgb:                     #{to-rgb(#2ecc71)};
+        --#{$prefix}chart-gray:                              #95a5a6;
+        --#{$prefix}chart-gray-rgb:                          #{to-rgb(#95a5a6)};
+        --#{$prefix}chart-dark:                              #34495e;
+        --#{$prefix}chart-dark-rgb:                          #{to-rgb(#34495e)};
+
+        --#{$prefix}link-color:                     #4A154B;
+
+        //Sidenav
+        --#{$prefix}sidenav-item-font-weight:                600;
+        --#{$prefix}sidenav-item-font-size:                  0.875rem;
+        --#{$prefix}sidenav-sub-item-font-size:                  0.875rem;
+
+
+        @each $name, $value in $theme-flat-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-flat-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-flat-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-flat-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-flat-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #{$white};
+            --#{$prefix}sidenav-border-color:             #e2e9ed;
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #23303c;
+            --#{$prefix}sidenav-item-hover-bg:          #f3f4f6;
+            --#{$prefix}sidenav-item-active-color:        #23303c;
+            --#{$prefix}sidenav-item-active-bg:         #f3f4f6;
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg: #2f3038;
+            --#{$prefix}sidenav-border-color: #2f3038;
+            --#{$prefix}sidenav-item-color: #8f949d;
+            --#{$prefix}sidenav-item-hover-color: #bec6cf;
+            --#{$prefix}sidenav-item-hover-bg: #363740;
+            --#{$prefix}sidenav-item-active-color: #ced6df;
+            --#{$prefix}sidenav-item-active-bg: #363740;
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                     #1e1f27;
+            --#{$prefix}sidenav-border-color:           #2c2d38;
+            --#{$prefix}sidenav-item-color:             #6c7889;
+            --#{$prefix}sidenav-item-hover-color:       #bccee4;
+            --#{$prefix}sidenav-item-hover-bg:          #22232c;
+            --#{$prefix}sidenav-item-active-color:      #ced6df;
+            --#{$prefix}sidenav-item-active-bg:         #22232c;
+        }
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                      #3d3e48;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+
+        // Topbar (Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"]{
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="flat"] {
+                --#{$prefix}body-bg:                     #{#17181e};
+                --#{$prefix}body-bg-rgb:                 #{to-rgb(#17181e)};
+
+                --#{$prefix}border-color:                #252630;
+
+                --#{$prefix}secondary-bg:                #{#1b1c22};
+                --#{$prefix}secondary-bg-rgb:            #{to-rgb(#1b1c22)};
+
+                --#{$prefix}box-shadow:                  #{0px 0px 30px rgba(0, 0, 0, 0.3)};
+
+                --#{$prefix}light:                     #252630;
+                --#{$prefix}light-rgb:                   #{to-rgb(#252630)};
+                --#{$prefix}dark:                      #4b4d5c;
+                --#{$prefix}dark-rgb:                    #{to-rgb(#4b4d5c)};
+            }
+        }
+    }
+}

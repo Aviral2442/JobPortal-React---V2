@@ -1,0 +1,139 @@
+//
+// _card.scss
+//
+
+.card {
+    box-shadow: $card-box-shadow;
+    margin-bottom: $spacer;
+
+    &.card-collapse {
+        .card-header {
+            border-bottom: 0;
+        }
+
+        .card-body {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    .card-body {
+        transition: all 0.3s ease-out;
+    }
+
+    &[class*="text"]  {
+        .card-action-item {
+            background-color: rgba(var(--#{$prefix}white-rgb), 0.2) !important;
+            color: $white !important;
+        }
+    }
+
+    .card-title {
+        font-size: 15px;
+        font-weight: $font-weight-semibold;
+        text-transform: none;
+    }
+
+    &.card-bordered {
+        border: none;
+        border-left: 3px solid;
+    }
+}
+
+// Custom class for Card backgrouns color
+.card-bg {
+    background-color: $card-bg;
+}
+
+// Card Header
+.card-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px dashed var(--#{$prefix}border-color); 
+    @extend .gap-3;
+    @extend .flex-wrap;
+
+    &.border-dashed {
+        border-bottom-style: dashed !important;
+    }
+}
+
+
+
+// Card Action
+.card-action {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: auto;
+
+    .card-action-item {
+        font-size: 14px;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 50%;
+        background-color: rgba(var(--#{$prefix}black-rgb), 0.05);
+        color: inherit;
+        transition: all 0.3s ease-out;
+
+        i {
+            vertical-align: middle;
+        }
+
+        &:hover {
+            background-color: rgba(var(--#{$prefix}primary-rgb), 0.2);
+            color: var(--#{$prefix}primary);
+        }
+    }
+}
+
+
+// Card Overlay
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(var(--#{$prefix}primary-rgb), 0.15);
+    backdrop-filter: blur(2px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 0.3rem;
+}
+
+// Custom card height
+.card-h-100 {
+    height: calc(100% - #{$spacer});
+}
+
+.card-hovered {
+    transition: transform .25s ease-in-out;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--#{$prefix}box-shadow);
+    }
+}
+
+// Code Body (Custom Component)
+.code-body {
+    display: none;
+
+    pre {
+        max-height: 300px;
+        scrollbar-width: thin;
+        @extend .bg-light-subtle;
+    }
+}
+
+// Card Stick Style
+.card-top-sticky {
+    @extend .position-sticky;
+    top: calc(var(--#{$prefix}topbar-height) + $spacer);
+}

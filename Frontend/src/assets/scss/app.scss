@@ -1,0 +1,93 @@
+/**
+ * Template Name: Simple - Responsive Admin & Dashboard Template
+ * By (Author): Coderthemes
+ * Module/App (File Name): App CSS File
+ * Version: 3.0.0
+*/
+
+
+// Core files
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+@import "variables";
+@import "variables-dark";
+
+@import "bootstrap/scss/bootstrap";
+
+@import "config/root";
+@import "config/theme-shadcn";         // Default Theme // Please do not remove
+@import "config/theme-ghibli";         // Ghibli Theme
+@import "config/theme-corporate";      // Corporate Theme
+@import "config/theme-slack";          // Slack Theme
+@import "config/theme-material";       // Material Theme
+@import "config/theme-spotify";        // Spotify Theme
+@import "config/theme-saas";           // Saas Theme
+@import "config/theme-flat";           // Flat Theme
+@import "config/theme-nature";         // Nature Theme
+@import "config/theme-pastel";         // Pastel Theme
+@import "config/theme-vintage";        // Vintage Theme
+@import "config/theme-caffieine";      // Caffieine Theme
+@import "config/theme-leafline";       // Leafline Theme
+@import "config/theme-redshift";       // Redshift Theme
+
+
+// Structure
+@import "structure/topbar";
+@import "structure/sidenav";
+@import "structure/layout";
+@import "structure/footer";
+
+// Components
+@import "components/background";
+@import "components/accordions";
+@import "components/alert";
+@import "components/avatar";
+@import "components/breadcrumb";
+@import "components/buttons";
+@import "components/badge";
+@import "components/card";
+@import "components/dropdown";
+@import "components/forms";
+@import "components/modal";
+@import "components/nav";
+@import "components/pagination";
+@import "components/popover";
+@import "components/print";
+@import "components/progress";
+@import "components/reboot";
+@import "components/tables";
+@import "components/tooltip";
+@import "components/preloader";
+@import "components/widgets";
+@import "components/list-group";
+
+
+// Pages
+@import "pages/authentication";
+@import "pages/chat";
+@import "pages/error";
+@import "pages/landing";
+@import "pages/outlook";
+@import "pages/pin-board";
+@import "pages/timeline";
+
+
+// Plugins
+@import "plugins/calendar";
+@import "plugins/choice";
+@import "plugins/datatables";
+@import "plugins/dropzone";
+@import "plugins/flatpickr";
+@import "plugins/jvectormap";
+@import "plugins/pass-bar";
+@import "plugins/prismjs";
+@import "plugins/quill-editor";
+@import "plugins/simplebar";
+@import "plugins/sortablejs";
+@import "plugins/sweetalert2";
+@import "plugins/touchpin";
+@import "plugins/tour";
+@import "plugins/typehead";
+@import "plugins/wizard";
+@import "plugins/react-select";

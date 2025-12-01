@@ -1,0 +1,173 @@
+// 
+// Spotify Theme Mode
+//
+
+$theme-spotify-colors: (
+  "primary":   #21c45f,   // softened Spotify green (brighter & less saturated)
+  "secondary": #39a4e0,   // slightly lighter blue
+  "success":   #2ecc71,   // standard success green
+  "info":      #1ab7cc,   // brighter cyan
+  "warning":   #f4a933,   // softer amber
+  "danger":    #d84334,   // slightly lighter red
+  "purple":    #9b59b6,   // more muted violet
+  "dark":      #34495e,   // lighter navy
+  "light":     #f4f6f7    // very light gray
+);
+
+
+
+@if $theme-spotify ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+    html[data-skin="spotify"] {
+
+        --#{$prefix}font-sans-serif:        "DM Sans", sans-serif;
+
+        --#{$prefix}body-bg:               #f8fafd;
+        --#{$prefix}body-font-size:               0.875rem;
+
+        --#{$prefix}tertiary-bg:          #f8fafd;
+
+        --#{$prefix}secondary-color:          #838ea3;
+
+        --#{$prefix}border-color:                   #ebeef3;
+        --#{$prefix}border-radius:               .3rem;
+        --#{$prefix}border-radius-sm:            .25rem;
+        --#{$prefix}border-radius-lg:            .4rem;
+        --#{$prefix}border-radius-xl:            .5rem;
+
+        --#{$prefix}font-weight-medium:      500;
+        --#{$prefix}font-weight-semibold:    600;
+        --#{$prefix}font-weight-bold:        700;
+
+        --#{$prefix}font-size-xxs:          12px;
+        --#{$prefix}font-size-xs:           13px;
+        --#{$prefix}font-size-base:         0.875rem;
+        --#{$prefix}font-size-md:           15px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:               #21c45f;
+        --#{$prefix}chart-primary-rgb:           #{to-rgb(#21c45f)};
+        --#{$prefix}chart-secondary:             #212121;
+        --#{$prefix}chart-secondary-rgb:         #{to-rgb(#212121)};
+        --#{$prefix}chart-gray:                  #e9eaeb;
+        --#{$prefix}chart-gray-rgb:              #{to-rgb(#e9eaeb)};
+        --#{$prefix}chart-dark:                  #2C3E50;
+        --#{$prefix}chart-dark-rgb:              #{to-rgb(#2C3E50)};
+
+
+        //Sidenav
+        --#{$prefix}sidenav-item-font-weight:                500;
+        --#{$prefix}sidenav-item-font-size:                  0.875rem;
+
+
+        @each $name, $value in $theme-spotify-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-spotify-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-spotify-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-spotify-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-spotify-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #ffffff;
+            --#{$prefix}sidenav-border-color:             #ebeef3;
+            --#{$prefix}sidenav-item-color:               #55606e;
+            --#{$prefix}sidenav-item-hover-color:         #23303c;
+            --#{$prefix}sidenav-item-hover-bg:          #f8fafd;
+            --#{$prefix}sidenav-item-active-color:        #23303c;
+            --#{$prefix}sidenav-item-active-bg:         #f8fafd;
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg: #1c1d28;
+            --#{$prefix}sidenav-border-color: #1c1d28;
+            --#{$prefix}sidenav-item-color: #6c7889;
+            --#{$prefix}sidenav-item-hover-color: #bccee4;
+            --#{$prefix}sidenav-item-hover-bg: #20222e;
+            --#{$prefix}sidenav-item-active-color: #ced6df;
+            --#{$prefix}sidenav-item-active-bg: #20222e;
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                     #1e1f27;
+            --#{$prefix}sidenav-border-color:           #2c2d38;
+            --#{$prefix}sidenav-item-color:             #6c7889;
+            --#{$prefix}sidenav-item-hover-color:       #bccee4;
+            --#{$prefix}sidenav-item-hover-bg:          #22232c;
+            --#{$prefix}sidenav-item-active-color:      #ced6df;
+            --#{$prefix}sidenav-item-active-bg:         #22232c;
+        }
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+
+        // Topbar (Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"]{
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="spotify"] {
+                --#{$prefix}body-bg:                     #{#17181e};
+                --#{$prefix}body-bg-rgb:                 #{to-rgb(#17181e)};
+
+                --#{$prefix}tertiary-bg:          #272832;
+
+                --#{$prefix}border-color:                #252630;
+
+                --#{$prefix}secondary-bg:                #{#1b1c22};
+                --#{$prefix}secondary-bg-rgb:            #{to-rgb(#1b1c22)};
+
+                --#{$prefix}box-shadow:                  #{0px 0px 30px rgba(0, 0, 0, 0.3)};
+
+                --#{$prefix}light:                     #35363d;
+                --#{$prefix}light-rgb:                   #{to-rgb(#35363d)};
+                --#{$prefix}light-bg-subtle: rgba(#{to-rgb(#35363d)}, 0.2);
+                --#{$prefix}dark:                      #4b4d5c;
+                --#{$prefix}dark-rgb:                    #{to-rgb(#4b4d5c)};
+            }
+        }
+    }
+}

@@ -1,0 +1,173 @@
+// 
+// Material Theme Mode
+//
+
+$theme-material-colors: (
+  "primary":   #1a73e8,   // Material Blue A700 – bold and vibrant
+  "secondary": #03dac6,   // Material Teal A200 – soft accent
+  "success":   #388e3c,   // Material Green 700 – positive/confirmation
+  "info":      #0288d1,   // Material Blue 600 – clean info tone
+  "warning":   #fbc02d,   // Material Yellow 700 – strong warning
+  "danger":    #d32f2f,   // Material Red 700 – alert/error
+  "purple":    #7b1fa2,   // Material Deep Purple 700 – optional accent
+  "dark":      #121212,   // Material dark background
+  "light":     #f5f5f5    // Material light background
+);
+
+
+
+@if $theme-material ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+    html[data-skin="material"] {
+
+        --#{$prefix}font-sans-serif:        "Roboto", sans-serif;
+
+        --#{$prefix}body-bg:               #f5f6f7;
+
+        --#{$prefix}border-radius:               .2rem;
+        --#{$prefix}border-radius-sm:            .15rem;
+        --#{$prefix}border-radius-lg:            .3rem;
+        --#{$prefix}border-radius-xl:            .2rem;
+
+        --#{$prefix}font-weight-medium:      500;
+        --#{$prefix}font-weight-semibold:    600;
+        --#{$prefix}font-weight-bold:        700;
+
+        --#{$prefix}font-size-xxs:          11px;
+        --#{$prefix}font-size-xs:           12px;
+        --#{$prefix}font-size-base:         13px;
+        --#{$prefix}font-size-md:           14px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:                           #1a73e8;
+        --#{$prefix}chart-primary-rgb:                       #{to-rgb(#1a73e8)};
+        --#{$prefix}chart-secondary:                         #03dac6;
+        --#{$prefix}chart-secondary-rgb:                     #{to-rgb(#03dac6)};
+        --#{$prefix}chart-gray:                              #e9eaeb;
+        --#{$prefix}chart-gray-rgb:                          #{to-rgb(#e9eaeb)};
+        --#{$prefix}chart-dark:                              #d32f2f;
+        --#{$prefix}chart-dark-rgb:                          #{to-rgb(#d32f2f)};
+
+        --#{$prefix}link-color:                     #1a73e8;
+
+        //Sidenav
+        --#{$prefix}sidenav-item-font-weight:                400;
+
+        --#{$prefix}theme-card-border-width: 0;
+        --#{$prefix}theme-card-box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+
+
+        @each $name, $value in $theme-material-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-material-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-material-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-material-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-material-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #{$white};
+            --#{$prefix}sidenav-border-color:             #{$gray-200};
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #23303c;
+            --#{$prefix}sidenav-item-hover-bg:          #f3f4f6;
+            --#{$prefix}sidenav-item-active-color:        #23303c;
+            --#{$prefix}sidenav-item-active-bg:         #f3f4f6;
+            --#{$prefix}sidenav-item-border-color:         #{$gray-200};
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg:                     #1c1d28;
+            --#{$prefix}sidenav-border-color:           #1c1d28;
+            --#{$prefix}sidenav-item-color:             #6c7889;
+            --#{$prefix}sidenav-item-hover-color:       #bccee4;
+            --#{$prefix}sidenav-item-hover-bg:          #22232c;
+            --#{$prefix}sidenav-item-active-color:      #ced6df;
+            --#{$prefix}sidenav-item-active-bg:         #20222e;
+            --#{$prefix}sidenav-item-border-color:      #2d3c4a;
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                     #1e1f27;
+            --#{$prefix}sidenav-border-color:           #2c2d38;
+            --#{$prefix}sidenav-item-color:             #6c7889;
+            --#{$prefix}sidenav-item-hover-color:       #bccee4;
+            --#{$prefix}sidenav-item-hover-bg:          #22232c;
+            --#{$prefix}sidenav-item-active-color:      #ced6df;
+            --#{$prefix}sidenav-item-active-bg:         #22232c;
+            --#{$prefix}sidenav-item-border-color:         #293036;
+        }
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+
+        // Topbar (Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"]{
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="material"] {
+                --#{$prefix}body-bg:                     #{#17181e};
+                --#{$prefix}body-bg-rgb:                 #{to-rgb(#17181e)};
+
+                --#{$prefix}border-color:                #252630;
+
+                --#{$prefix}theme-card-border-width: 1px;
+                --#{$prefix}theme-card-box-shadow: none;
+
+                --#{$prefix}secondary-bg:                #{#1b1c22};
+                --#{$prefix}secondary-bg-rgb:            #{to-rgb(#1b1c22)};
+
+                --#{$prefix}box-shadow:                  #{0px 0px 30px rgba(0, 0, 0, 0.3)};
+
+                --#{$prefix}light:                     #252630;
+                --#{$prefix}light-rgb:                   #{to-rgb(#252630)};
+                --#{$prefix}dark:                      #4b4d5c;
+                --#{$prefix}dark-rgb:                    #{to-rgb(#4b4d5c)};
+            }
+        }
+    }
+}

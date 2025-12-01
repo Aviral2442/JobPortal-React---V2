@@ -1,0 +1,159 @@
+// 
+// Pastel Theme Mode
+//
+
+$theme-pastel-colors: (
+  "primary":   #B983FF,   // pastel violet – bright but soft
+  "secondary": #85E3FF,   // sky blue – airy and playful
+  "success":   #A0E7A0,   // mint green – fresh and calming
+  "info":      #B5D8FF,   // soft blue – informative, gentle
+  "warning":   #FFD580,   // pastel orange – warm pop
+  "danger":    #FF8AAE,   // pink-red – emotional but sweet
+  "purple":    #D8B4F8,   // lavender – youthful and dreamy
+  "light":     #f0f4f8,   // light blue-gray – fresh and corporate
+);
+
+
+@if $theme-pastel ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+    html[data-skin="pastel"] {
+
+        --#{$prefix}font-sans-serif:        "Montserrat", sans-serif;
+
+        --#{$prefix}body-bg:               #f8f3fa;
+
+        --#{$prefix}font-weight-medium:      500;
+        --#{$prefix}font-weight-semibold:    700;
+        --#{$prefix}font-weight-bold:        700;
+
+        --#{$prefix}font-size-xxs:          11px;
+        --#{$prefix}font-size-xs:           12px;
+        --#{$prefix}font-size-base:         13px;
+        --#{$prefix}font-size-md:           14px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:                           #B983FF;
+        --#{$prefix}chart-primary-rgb:                       #{to-rgb(#B983FF)};
+        --#{$prefix}chart-secondary:                         #A0E7A0;
+        --#{$prefix}chart-secondary-rgb:                     #{to-rgb(#A0E7A0)};
+        --#{$prefix}chart-gray:                              #e9eaeb;
+        --#{$prefix}chart-gray-rgb:                          #{to-rgb(#e9eaeb)};
+        --#{$prefix}chart-dark:                              #FF8AAE;
+        --#{$prefix}chart-dark-rgb:                          #{to-rgb(#FF8AAE)};
+
+
+        --#{$prefix}theme-card-box-shadow:    0px 1px 4px 0px #b983ff3a;
+
+
+        @each $name, $value in $theme-pastel-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-pastel-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-pastel-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-pastel-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-pastel-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #{$white};
+            --#{$prefix}sidenav-border-color:             #{$gray-200};
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #23303c;
+            --#{$prefix}sidenav-item-hover-bg:          #f3f4f6;
+            --#{$prefix}sidenav-item-active-color:        #23303c;
+            --#{$prefix}sidenav-item-active-bg:         #f3f4f6;
+            --#{$prefix}sidenav-item-border-color:         #{$gray-200};
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg:                     #1c1d28;
+            --#{$prefix}sidenav-border-color:           #1c1d28;
+            --#{$prefix}sidenav-item-color:             #6c7889;
+            --#{$prefix}sidenav-item-hover-color:       #bccee4;
+            --#{$prefix}sidenav-item-hover-bg:          #22232c;
+            --#{$prefix}sidenav-item-active-color:      #ced6df;
+            --#{$prefix}sidenav-item-active-bg:         #20222e;
+            --#{$prefix}sidenav-item-border-color:         #2d3c4a;
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                     #1e1f27;
+            --#{$prefix}sidenav-border-color:           #2c2d38;
+            --#{$prefix}sidenav-item-color:             #6c7889;
+            --#{$prefix}sidenav-item-hover-color:       #bccee4;
+            --#{$prefix}sidenav-item-hover-bg:          #22232c;
+            --#{$prefix}sidenav-item-active-color:      #ced6df;
+            --#{$prefix}sidenav-item-active-bg:         #22232c;
+            --#{$prefix}sidenav-item-border-color:         #293036;
+        }
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+
+        // Topbar (Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="pastel"] {
+                --#{$prefix}body-bg:                     #{#17181e};
+                --#{$prefix}body-bg-rgb:                 #{to-rgb(#17181e)};
+
+                --#{$prefix}border-color:                #252630;
+
+                --#{$prefix}secondary-bg:                #{#1b1c22};
+                --#{$prefix}secondary-bg-rgb:            #{to-rgb(#1b1c22)};
+
+                --#{$prefix}light:                     #252630;
+                --#{$prefix}light-rgb:                   #{to-rgb(#252630)};
+                --#{$prefix}light-bg-subtle:            rgba(#{to-rgb(#252630)}, 0.4);
+                --#{$prefix}dark:                      #4b4d5c;
+                --#{$prefix}dark-rgb:                    #{to-rgb(#4b4d5c)};
+                --#{$prefix}box-shadow:                  #{0px 0px 30px rgba(0, 0, 0, 0.3)};
+                --#{$prefix}theme-card-box-shadow:    #{0px 0px 30px rgba(0, 0, 0, 0.3)};
+            }
+        }
+    }
+}

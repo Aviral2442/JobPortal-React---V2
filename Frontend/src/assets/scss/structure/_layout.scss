@@ -1,0 +1,202 @@
+//
+// _layout.scss
+//
+
+// Wrapper
+.wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+// Content Page
+.content-page {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-left: $sidenav-width;
+    min-height: calc(100vh - #{calc($topbar-height + 1px)});
+    transition: $transition-base;
+    padding: 0 calc($grid-gutter-width * 0.5);
+
+    @include media-breakpoint-up(xxl) {
+        padding: 0 50px;
+    }
+}
+
+// Page Head
+.page-title-head {
+    min-height: 40px;
+    background-color: $card-bg;
+    margin: $spacer 0;
+    border-radius: var(--#{$prefix}border-radius);
+    padding: $spacer;
+    border: 1px solid var(--#{$prefix}border-color);
+    transition: margin 0.35s ease-in-out, width 0.35s ease-in-out;
+
+    #btn-page-head .btn-page-head-icon {
+        transition: rotate 0.3s ease;
+    }
+
+    &.active {
+        margin: 0 calc($grid-gutter-width * -1) $spacer;
+        border-radius: 0;
+        border-width: 0 0 1px 0;
+
+        @include media-breakpoint-up(xxl) {
+            margin: 0 calc($grid-gutter-width * -0.5 - 50px) $spacer;
+        }
+
+        #btn-page-head .btn-page-head-icon {
+            rotate: 180deg;
+        }
+    }
+
+    .btn-page-head-icon {
+        animation: bounceLoop 1s ease-in-out infinite;
+    }
+}
+
+@keyframes bounceLoop {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+// Logo Height
+.logo-lg {
+    img {
+        height: $logo-lg-height;
+    }
+}
+
+.logo-sm {
+    img {
+        height: $logo-sm-height;
+    }
+}
+
+// Sidebar Logo
+.logo {
+    display: block;
+    top: 0;
+    position: sticky;
+    line-height: $topbar-height;
+    padding: 0 12px;
+
+    span.logo-lg {
+        display: block;
+    }
+
+    span.logo-sm {
+        display: none;
+    }
+
+    &.logo-light {
+        display: none;
+    }
+
+    &.logo-dark {
+        display: block;
+    }
+}
+
+html[data-sidenav-color="dark"],
+html[data-bs-theme="dark"],
+html[data-sidenav-color="light"][data-topbar-color="dark"] {
+
+    .logo {
+        &.logo-light {
+            display: block;
+        }
+
+        &.logo-dark {
+            display: none;
+        }
+    }
+}
+
+html[data-sidenav-color="dark"] {
+    .side-nav svg {
+        fill: rgba(var(--#{$prefix}white-rgb), 0.1) !important;
+    }
+}
+
+//
+// SCROLLABLE LAYOUT
+//
+
+@include media-breakpoint-up(lg) {
+    html[data-layout-position="scrollable"] {
+        .content-page {
+            position: relative;
+        }
+
+        .sidenav-menu {
+            position: absolute;
+        }
+
+        .logo,
+        .app-topbar {
+            position: static;
+        }
+    }
+}
+
+//
+// Topbar Dot
+//
+
+.dot-blink {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+    display: block;
+    top: 15px;
+    right: 0;
+    background: var(--#{$prefix}danger);
+    box-shadow: 0 0 0 0 var(--#{$prefix}danger);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 0 var(--#{$prefix}danger);
+    }
+
+    70% {
+        transform: scale(1);
+        opacity: 0.2;
+        box-shadow: 0 0 0 8px rgba(40, 167, 69, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+    }
+}
+
+//
+// Monochrome Mode
+//
+
+.monochrome:before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    backdrop-filter: grayscale(100%) opacity(.92);
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    pointer-events: none;
+    z-index: 999999
+}

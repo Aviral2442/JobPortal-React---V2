@@ -1,0 +1,11 @@
+//
+// _error.scss
+//
+
+.text-error {
+    background: linear-gradient(to bottom, $purple 30%, $orange);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; 
+}

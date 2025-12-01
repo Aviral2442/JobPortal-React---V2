@@ -1,0 +1,93 @@
+//
+// _forms.scss
+//
+
+// Form Control
+.form-control,
+.form-select,
+.form-check-input {
+    transition: box-shadow 0.2s ease;
+    box-shadow: $input-box-shadow;
+}
+
+// Form Control Small
+.form-control-sm {
+    line-height: normal;
+}
+
+
+// Form elements (Color and Range)
+input.form-control[type="color"],
+input.form-control[type="range"] {
+    min-height: $input-height;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@each $state in map-keys($theme-colors) {
+    .form-check-#{$state} {
+        .form-check-input {
+            &:checked {
+                background-color: var(--#{$prefix}#{$state});
+                border-color: var(--#{$prefix}#{$state});
+            }
+        }
+    }
+}
+
+
+// card radio
+.card-radio {
+    padding: 0;
+
+    .form-check-label {
+        background-color: $card-bg;
+        border: 1px solid var(--#{$prefix}border-color);
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .form-check-input {
+        display: none;
+
+        &:checked+.form-check-label {
+            overflow: visible;
+            &:before {
+                content: "";
+                background-image: url("data:image/svg+xml,%3Csvg%20%20xmlns=%22http://www.w3.org/2000/svg%22%20%20width=%2224%22%20%20height=%2224%22%20%20viewBox=%220%200%2024%2024%22%20%20fill=%22%23f5315d%22%20%20class=%22icon%20icon-tabler%20icons-tabler-filled%20icon-tabler-square-rounded-check%22%3E%3Cpath%20stroke=%22none%22%20d=%22M0%200h24v24H0z%22%20fill=%22none%22/%3E%3Cpath%20d=%22M12%202c-.218%200%20-.432%20.002%20-.642%20.005l-.616%20.017l-.299%20.013l-.579%20.034l-.553%20.046c-4.785%20.464%20-6.732%202.411%20-7.196%207.196l-.046%20.553l-.034%20.579c-.005%20.098%20-.01%20.198%20-.013%20.299l-.017%20.616l-.004%20.318l-.001%20.324c0%20.218%20.002%20.432%20.005%20.642l.017%20.616l.013%20.299l.034%20.579l.046%20.553c.464%204.785%202.411%206.732%207.196%207.196l.553%20.046l.579%20.034c.098%20.005%20.198%20.01%20.299%20.013l.616%20.017l.642%20.005l.642%20-.005l.616%20-.017l.299%20-.013l.579%20-.034l.553%20-.046c4.785%20-.464%206.732%20-2.411%207.196%20-7.196l.046%20-.553l.034%20-.579c.005%20-.098%20.01%20-.198%20.013%20-.299l.017%20-.616l.005%20-.642l-.005%20-.642l-.017%20-.616l-.013%20-.299l-.034%20-.579l-.046%20-.553c-.464%20-4.785%20-2.411%20-6.732%20-7.196%20-7.196l-.553%20-.046l-.579%20-.034a28.058%2028.058%200%200%200%20-.299%20-.013l-.616%20-.017l-.318%20-.004l-.324%20-.001zm2.293%207.293a1%201%200%200%201%201.497%201.32l-.083%20.094l-4%204a1%201%200%200%201%20-1.32%20.083l-.094%20-.083l-2%20-2a1%201%200%200%201%201.32%20-1.497l.094%20.083l1.293%201.292l3.293%20-3.292z%22%20fill=%22%23f5315d%22%20stroke-width=%220%22%20/%3E%3C/svg%3E");
+                position: absolute;
+                bottom: -10px;
+                right: -10px;
+                background-size: 24px;
+                height: 24px;
+                width: 24px;
+                border-radius: 50%;
+                text-align: center;
+                font-size: 24px;
+                line-height: 30px;
+                color: var(--#{$prefix}danger);
+                background-color: $card-bg;
+            }
+        }
+    }
+}
+
+// Custom Form Check (Gray Styled)
+.form-check-input-light {
+    background-color: rgba(var(--#{$prefix}light-rgb), 0.9);
+    border-color: rgba(var(--#{$prefix}light-rgb), 0.9);
+    box-shadow: inset 0 1px 2px rgba(var(--#{$prefix}dark-rgb), 0.05);
+}

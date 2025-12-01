@@ -1,0 +1,175 @@
+// 
+// Caffieine Theme Mode
+//
+
+$theme-caffieine-colors: (
+  "primary":   #5C4033,   // rich espresso brown – strong and bold
+  "secondary": #A47551,   // warm latte tan – creamy balance
+  "success":   #6E8B3D,   // matcha green – energetic yet natural
+  "info":      #B8A77F,   // oat milk beige – smooth and subtle
+  "warning":   #D9A441,   // toasted caramel – mellow highlight
+  "danger":    #8B3A3A,   // burnt mocha – intense but vintage
+  "purple":    #7E5A9B,   // plum roast – cozy undertone
+  "dark":      #2B1B17,   // deep brew – dark and grounded
+);
+
+
+
+@if $theme-caffieine ==true {
+
+    html[data-skin="caffieine"] {
+
+        --#{$prefix}body-bg:               #f5f6f7;
+
+        --#{$prefix}border-radius:               .3rem;
+        --#{$prefix}border-radius-sm:            .25rem;
+        --#{$prefix}border-radius-lg:            .4rem;
+        --#{$prefix}border-radius-xl:            .5rem;
+
+        --#{$prefix}chart-primary:                           #5C4033;
+        --#{$prefix}chart-primary-rgb:                       #{to-rgb(#5C4033)};
+        --#{$prefix}chart-secondary:                         #A47551;
+        --#{$prefix}chart-secondary-rgb:                     #{to-rgb(#A47551)};
+        --#{$prefix}chart-gray:                              #F5EFE7;
+        --#{$prefix}chart-gray-rgb:                          #{to-rgb(#F5EFE7)};
+        --#{$prefix}chart-dark:                              #6E8B3D;
+        --#{$prefix}chart-dark-rgb:                          #{to-rgb(#6E8B3D)};
+
+
+        @each $name, $value in $theme-caffieine-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-caffieine-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-caffieine-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-caffieine-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-caffieine-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #{$white};
+            --#{$prefix}sidenav-border-color:             #{$gray-200};
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #23303c;
+            --#{$prefix}sidenav-item-hover-bg:          #f3f4f6;
+            --#{$prefix}sidenav-item-active-color:        #23303c;
+            --#{$prefix}sidenav-item-active-bg:         #f3f4f6;
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg:                   #1a1613; // deep espresso background
+            --#{$prefix}sidenav-border-color:         #2a221d; // subtle dark brown edge
+            --#{$prefix}sidenav-item-color:           #7e736a; // soft mocha text
+            --#{$prefix}sidenav-item-hover-color:     #d4a875; // warm caramel on hover
+            --#{$prefix}sidenav-item-hover-bg:        #2a241f; // dark roast background
+            --#{$prefix}sidenav-item-active-color:    #e7dcc7; // creamy active link
+            --#{$prefix}sidenav-item-active-bg:       #352d27; // slightly brighter dark
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                   #1a1613; // deep espresso background
+            --#{$prefix}sidenav-border-color:         #2a221d; // subtle dark brown edge
+            --#{$prefix}sidenav-item-color:           #a39278; // soft mocha text
+            --#{$prefix}sidenav-item-hover-color:     #d4a875; // warm caramel on hover
+            --#{$prefix}sidenav-item-hover-bg:        #2a241f; // dark roast background
+            --#{$prefix}sidenav-item-active-color:    #e7dcc7; // creamy active link
+            --#{$prefix}sidenav-item-active-bg:       #352d27; // slightly brighter dark
+        }
+
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                   #1e1b18; // espresso base
+            --#{$prefix}topbar-item-color:           #b8a88c; // latte beige
+            --#{$prefix}topbar-item-hover-color:     #d4a875; // caramel gold on hover
+            --#{$prefix}topbar-search-bg:            #2a241f; // mocha blend
+            --#{$prefix}topbar-search-border:        #3e342c; // muted brown border
+        }
+
+        // Topbar (Caffeine Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                   #1e1b18; // espresso base
+            --#{$prefix}topbar-item-color:           #b8a88c; // latte beige
+            --#{$prefix}topbar-item-hover-color:     #d4a875; // caramel gold on hover
+            --#{$prefix}topbar-search-bg:            #2a241f; // mocha blend
+            --#{$prefix}topbar-search-border:        #3e342c; // muted brown border
+        }
+
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="caffieine"] {
+                // Body
+                --#{$prefix}body-bg:                   #1a1613; // deep espresso
+                --#{$prefix}body-color:               #b8a88c; // muted latte beige
+                --#{$prefix}body-color-rgb:           #{to-rgb(#b8a88c)};
+                --#{$prefix}heading-color:            #e7dcc7; // soft cream
+
+                // Backgrounds
+                --#{$prefix}secondary-bg:             #211d1a; // rich dark roast
+                --#{$prefix}tertiary-bg:              #2b241f; // bold mocha
+                --#{$prefix}light:                    #3c342e; // dark cocoa
+                --#{$prefix}light-rgb:                #{to-rgb(#3c342e)};
+                --#{$prefix}light-bg-subtle:          rgba(#{to-rgb(#3c342e)}, 0.3);
+                --#{$prefix}dark:                     #14110f; // black coffee
+                --#{$prefix}dark-rgb:                 #{to-rgb(#14110f)};
+
+                // Text & Color
+                --#{$prefix}secondary-color:          #b8a88c;
+                --#{$prefix}tertiary-color:           rgba(#{to-rgb(#b8a88c)}, 0.45);
+                --#{$prefix}emphasis-color:           rgba(#{to-rgb(#e7dcc7)}, 0.4);
+                --#{$prefix}link-color:               #e7dcc7;
+                --#{$prefix}link-color-rgb:           #{to-rgb(#e7dcc7)};
+
+                // Border & Shadow
+                --#{$prefix}border-color:             #332b26;
+                --#{$prefix}border-color-translucent: #5a4e44;
+                --#{$prefix}box-shadow:               0px 0px 28px rgba(8, 6, 4, 0.5);
+
+                // Primary Theme Color (deep burnt caramel)
+                --#{$prefix}primary:                  #b07c45;
+                --#{$prefix}primary-rgb:              #{to-rgb(#b07c45)};
+                --#{$prefix}primary-bg-subtle:        rgba(#{to-rgb(#b07c45)}, 0.18);
+                --#{$prefix}primary-text-emphasis:    #d4a875;
+
+                // Charts
+                --#{$prefix}chart-primary:            #b07c45;
+                --#{$prefix}chart-primary-rgb:        #{to-rgb(#b07c45)};
+                --#{$prefix}chart-secondary:          #7a5a3a;
+                --#{$prefix}chart-secondary-rgb:      #{to-rgb(#7a5a3a)};
+                --#{$prefix}chart-gray:               #b8aa93;
+                --#{$prefix}chart-gray-rgb:           #{to-rgb(#b8aa93)};
+                --#{$prefix}chart-dark:               #2a221d;
+                --#{$prefix}chart-dark-rgb:           #{to-rgb(#2a221d)};
+                --#{$prefix}chart-border-color:       #2a231f;
+                --#{$prefix}chart-title-color:        #d8cab4;
+            }
+
+        }
+    }
+}

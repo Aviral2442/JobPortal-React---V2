@@ -1,0 +1,356 @@
+//
+// _datatables.scss
+//
+
+div.dt-container {
+    margin-top: -0.625rem;
+
+    div.dt-length select {
+        width: auto;
+        display: inline-block;
+        margin-right: .5em;
+    }
+
+    div.dt-search {
+        text-align: right;
+
+        input {
+            margin-left: .5em;
+            display: inline-block;
+            width: auto;
+        }
+    }
+
+    div.dt-layout-table > div {
+        display: block !important;
+    }
+
+    div.dt-layout-full {
+        width: 100%;
+    }
+}
+
+select.dt-input {
+    @extend .form-select;
+    @extend .form-select-sm;
+}
+
+[type="search"].dt-input {
+    @extend .form-control;
+    @extend .form-control-sm;
+}
+
+.dt-layout-row {
+    margin-top: 0.625rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dt-paging {
+
+
+    .dt-paging-button {
+
+        &.current {
+            z-index: 3;
+            color: var(--#{$prefix}pagination-active-color);
+            background-color: var(--#{$prefix}pagination-active-bg);
+            border-color: var(--#{$prefix}pagination-active-border-color);
+        }
+    }
+
+    .pagination {
+        margin-bottom: 0;
+        padding-top: calc(var(--#{$prefix}card-spacer-y) - .625rem);
+    }
+}
+
+.dt-info {
+    padding-top: calc(var(--#{$prefix}card-spacer-y) - .625rem);
+}
+
+table.dataTable {
+    > tbody {
+        > tr {
+            .child span.dtr-title {
+                font-weight: $font-weight-semibold;
+            }
+        }
+    }
+}
+
+// SCSS for DataTables Sorting Arrows with Tabler Icons
+table.dataTable {
+    thead {
+        th {
+            position: relative;
+            cursor: pointer;
+
+            &:after {
+                content: "";
+                width: 1em;
+                height: 1em;
+                background-color: currentColor;
+                mask-image: var(--svg);
+                mask-repeat: no-repeat;
+                mask-size: 100% 100%;
+                --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 4h16v2.172a2 2 0 0 1-.586 1.414L15 12v7l-6 2v-8.5L4.52 7.572A2 2 0 0 1 4 6.227z'/%3E%3C/svg%3E");
+
+                position: absolute;
+                right: $table-cell-padding-x;
+                bottom: 10px;
+                color: var(--#{$prefix}secondary-color);
+                font-size: 16px;
+                font-weight: normal;
+                display: none;
+            }
+
+            &[aria-sort="ascending"]:after {
+                content: "";
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                background-color: currentColor;
+                mask-image: var(--svg);
+                mask-repeat: no-repeat;
+                mask-size: 100% 100%;
+                --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h7m-7 6h7m-7 6h9m2-9l3-3l3 3m-3-3v12'/%3E%3C/svg%3E");
+            }
+
+            &[aria-sort="descending"]:after {
+                content: "";
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                background-color: currentColor;
+                mask-image: var(--svg);
+                mask-repeat: no-repeat;
+                mask-size: 100% 100%;
+                --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h9m-9 6h7m-7 6h7m4-3l3 3l3-3m-3-9v12'/%3E%3C/svg%3E");
+            }
+
+            &:hover,
+            &.dt-ordering-asc,
+            &.dt-ordering-desc {
+                &::after {
+                    display: block;
+                }
+            }
+
+            &.dt-orderable-none {
+                cursor: default;
+
+                &::after {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    tbody {
+
+        > tr.selected,
+        > tr > .selected {
+            background-color: rgba(var(--#{$prefix}warning-rgb), 0.1);
+            color: inherit;
+
+            td {
+                background-color: rgba(var(--#{$prefix}warning-rgb), 0.1);
+                color: inherit;
+            }
+        }
+    }
+}
+
+// Select Info
+.select-info {
+    background-color: var(--#{$prefix}warning-bg-subtle);
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-weight: $font-weight-semibold;
+
+    .select-item {
+        margin: 0 !important;
+    }
+}
+
+// Data Table copy button
+div.dt-button-info {
+    background-color: var(--#{$prefix}primary);
+    border: none;
+    color: $white;
+    box-shadow: none;
+    border-radius: 3px;
+    text-align: center;
+    z-index: 21;
+
+    h2 {
+        border-bottom: none;
+        background-color: rgba($white, 0.2);
+        color: $white;
+    }
+}
+
+div.dt-scroll-body {
+    border-color: transparent;
+}
+
+// Scrollbar
+div.dt-scroll-body thead tr,
+div.dt-scroll-body tfoot tr {
+    height: 0 !important;
+    display: none !important;
+}
+
+.dt-column-header {
+    padding-right: 30px;
+}
+
+.dt-column-title {
+    padding-right: 5px;
+}
+
+.dt-child-rows-btn {
+    width: 1% !important;
+    cursor: pointer;
+
+    .dt-column-header {
+        padding-right: 0;
+    }
+
+    .dt-hasChild & {
+
+
+        .ti-square-rounded-plus-filled {
+            --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='black' d='m12 2l.324.001l.318.004l.616.017l.299.013l.579.034l.553.046c4.785.464 6.732 2.411 7.196 7.196l.046.553l.034.579q.008.147.013.299l.017.616L22 12l-.005.642l-.017.616l-.013.299l-.034.579l-.046.553c-.464 4.785-2.411 6.732-7.196 7.196l-.553.046l-.579.034q-.147.008-.299.013l-.616.017L12 22l-.642-.005l-.616-.017l-.299-.013l-.579-.034l-.553-.046c-4.785-.464-6.732-2.411-7.196-7.196l-.046-.553l-.034-.579l-.013-.299l-.017-.616Q2 12.327 2 12l.001-.324l.004-.318l.017-.616l.013-.299l.034-.579l.046-.553c.464-4.785 2.411-6.732 7.196-7.196l.553-.046l.579-.034q.147-.008.299-.013l.616-.017Q11.673 2 12 2m3 9H9l-.117.007A1 1 0 0 0 9 13h6l.117-.007A1 1 0 0 0 15 11'/%3E%3C/svg%3E");
+        }
+    }
+}
+
+// Column Search
+.column-search-input-bar {
+    th {
+        cursor: default !important;
+
+        &::after {
+            content: none !important;
+        }
+
+        .dt-column-header {
+            display: flex;
+            width: 100%;
+            padding-right: 0 !important;
+        }
+
+        .dt-column-title {
+            padding-right: 0 !important;
+        }
+    }
+}
+
+// checkbox-select-datatable
+.checkbox-select-datatable {
+    .dt-column-header,
+    .dt-column-title {
+        padding-right: 0;
+    }
+}
+
+// Fixed Header
+table.dataTable.fixedHeader-floating,
+table.dataTable.fixedHeader-locked {
+    background-color: var(--#{$prefix}body-bg);
+}
+
+@media screen and (max-width: 767px) {
+
+    div.dt-container div.dt-length,
+    div.dt-container div.dt-search,
+    div.dt-container div.dt-info,
+    div.dt-container div.dt-paging {
+        text-align: center;
+    }
+
+    .dt-paging {
+        .pagination {
+            justify-content: center;
+        }
+    }
+
+    .dt-length {
+        margin-bottom: 10px;
+    }
+}
+
+.ti-square-rounded-plus-filled {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    mask-image: var(--svg);
+    mask-repeat: no-repeat;
+    mask-size: 100% 100%;
+    --svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24'%3E%3Cpath fill='black' d='m12 2l.324.001l.318.004l.616.017l.299.013l.579.034l.553.046c4.785.464 6.732 2.411 7.196 7.196l.046.553l.034.579q.008.147.013.299l.017.616L22 12l-.005.642l-.017.616l-.013.299l-.034.579l-.046.553c-.464 4.785-2.411 6.732-7.196 7.196l-.553.046l-.579.034q-.147.008-.299.013l-.616.017L12 22l-.642-.005l-.616-.017l-.299-.013l-.579-.034l-.553-.046c-4.785-.464-6.732-2.411-7.196-7.196l-.046-.553l-.034-.579l-.013-.299l-.017-.616Q2 12.327 2 12l.001-.324l.004-.318l.017-.616l.013-.299l.034-.579l.046-.553c.464-4.785 2.411-6.732 7.196-7.196l.553-.046l.579-.034q.147-.008.299-.013l.616-.017Q11.673 2 12 2m0 6a1 1 0 0 0-1 1v2H9l-.117.007A1 1 0 0 0 9 13h2v2l.007.117A1 1 0 0 0 13 15v-2h2l.117-.007A1 1 0 0 0 15 11h-2V9l-.007-.117A1 1 0 0 0 12 8'/%3E%3C/svg%3E");
+}
+
+.dt-button-down-arrow {
+    display: none !important;
+}
+
+.dt-button-collection {
+    @extend .dropdown-menu;
+    @extend .dropdown-menu-end;
+}
+
+.dt-select-checkbox {
+    th.select-checkbox {
+        width: 1% !important;
+
+        .dt-column-header {
+            padding-right: 0 !important;
+            width: 1% !important;
+        }
+
+        .dt-column-title {
+            padding-right: 0 !important;
+        }
+    }
+
+    .select-checkbox {
+        width: 1% !important;
+
+        &::before {
+            content: none !important;
+        }
+
+        &::after {
+            display: inline-block;
+            content: "";
+            flex-shrink: 0;
+            border-radius: .25em;
+            font-size: 1em;
+            width: 1.25em;
+            height: 1.25em;
+            margin-top: .125em;
+            vertical-align: top;
+            appearance: none;
+            background-color: var(--ins-secondary-bg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            border: var(--ins-border-width) solid var(--ins-border-color);
+            print-color-adjust: exact;
+        }
+    }
+
+    .selected {
+        .select-checkbox {
+            &::after {
+                background-color: var(--ins-primary) !important;
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+                border-color: var(--ins-primary) !important;
+            }
+        }
+    }
+}

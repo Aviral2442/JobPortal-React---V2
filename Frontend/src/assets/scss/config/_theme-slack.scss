@@ -1,0 +1,170 @@
+// 
+// Slack Theme Mode
+//
+
+$theme-slack-colors: (
+  "primary":   #4A154B,   // Slack deep purple – bold, brand-like
+  "secondary": #2D9CDB,   // modern soft blue – clear and balanced
+  "success":   #27AE60,   // stronger emerald – more UI clarity
+  "info":      #17A2B8,   // bootstrap info-like cyan – clean
+  "warning":   #F39C12,   // vibrant amber – visible but smooth
+  "danger":    #C0392B,   // toned-down red – sharp but not too harsh
+  "purple":    #8E44AD,   // deep violet – elegant and rich
+  "dark":      #2C3E50,   // dark navy – great for headers/navs
+  "light":     #ECF0F1    // soft gray – fresh and minimal
+);
+
+
+@if $theme-slack ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+    html[data-skin="slack"] {
+
+        --#{$prefix}font-sans-serif:        "Lato", sans-serif;
+
+        --#{$prefix}body-bg:               #f5f6f7;
+
+        --#{$prefix}border-radius:               .3rem;
+        --#{$prefix}border-radius-sm:            .25rem;
+        --#{$prefix}border-radius-lg:            .4rem;
+        --#{$prefix}border-radius-xl:            .5rem;
+
+        --#{$prefix}font-weight-medium:      700;
+        --#{$prefix}font-weight-semibold:    700;
+        --#{$prefix}font-weight-bold:        700;
+
+        --#{$prefix}font-size-xxs:          11px;
+        --#{$prefix}font-size-xs:           12px;
+        --#{$prefix}font-size-base:         13px;
+        --#{$prefix}font-size-md:           14px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:                           #4A154B;
+        --#{$prefix}chart-primary-rgb:                       #{to-rgb(#4A154B)};
+        --#{$prefix}chart-secondary:                         #2D9CDB;
+        --#{$prefix}chart-secondary-rgb:                     #{to-rgb(#2D9CDB)};
+        --#{$prefix}chart-gray:                              #e9eaeb;
+        --#{$prefix}chart-gray-rgb:                          #{to-rgb(#e9eaeb)};
+        --#{$prefix}chart-dark:                              #27AE60;
+        --#{$prefix}chart-dark-rgb:                          #{to-rgb(#27AE60)};
+
+        //Sidenav
+        --#{$prefix}sidenav-item-font-weight:                700;
+
+
+        @each $name, $value in $theme-slack-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-slack-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-slack-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-slack-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-slack-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #ffffff;
+            --#{$prefix}sidenav-border-color:             #{$gray-200};
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #23303c;
+            --#{$prefix}sidenav-item-hover-bg:          #f3f4f6;
+            --#{$prefix}sidenav-item-active-color:        #23303c;
+            --#{$prefix}sidenav-item-active-bg:         #f3f4f6;
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg:                     #340835;
+            --#{$prefix}sidenav-border-color:           #340835;
+            --#{$prefix}sidenav-item-color:             #887389;
+            --#{$prefix}sidenav-item-hover-color:       #ffffff;
+            --#{$prefix}sidenav-item-hover-bg:          #4a154b;
+            --#{$prefix}sidenav-item-active-color:      #ffffff;
+            --#{$prefix}sidenav-item-active-bg:         #4a154b;
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg: #1e1f27;
+            --#{$prefix}sidenav-border-color: #2c2d38;
+            --#{$prefix}sidenav-item-color: #6c7889;
+            --#{$prefix}sidenav-item-hover-color: #bccee4;
+            --#{$prefix}sidenav-item-hover-bg: #22232c;
+            --#{$prefix}sidenav-item-active-color: #ced6df;
+            --#{$prefix}sidenav-item-active-bg: #22232c;
+        }
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                      #340835;
+            --#{$prefix}topbar-item-color:              #aa90ab;
+            --#{$prefix}topbar-item-hover-color:        #e8cbe9;
+            --#{$prefix}topbar-search-bg:               #451046;
+            --#{$prefix}topbar-search-border:           #451046;
+        }
+
+        // Topbar (Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"]{
+            --#{$prefix}topbar-bg:                      #252630;
+            --#{$prefix}topbar-item-color:              #adb5bf;
+            --#{$prefix}topbar-item-hover-color:        #e0eeff;
+            --#{$prefix}topbar-search-bg:               #2d2e3c;
+            --#{$prefix}topbar-search-border:           #2d2e3c;
+        }
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="slack"] {
+                --#{$prefix}body-bg:                     #{#17181e};
+                --#{$prefix}body-bg-rgb:                 #{to-rgb(#17181e)};
+
+                --#{$prefix}border-color:                #252630;
+
+                --#{$prefix}secondary-bg:                #{#1b1c22};
+                --#{$prefix}secondary-bg-rgb:            #{to-rgb(#1b1c22)};
+
+                --#{$prefix}box-shadow:                  #{0px 0px 30px rgba(0, 0, 0, 0.3)};
+
+                --#{$prefix}primary: #6E3A6F;
+                --#{$prefix}primary-rgb: #{to-rgb(#6E3A6F)};
+                --#{$prefix}primary-bg-subtle: rgba(#{to-rgb(#6E3A6F)}, 0.2);
+                --#{$prefix}primary-text-emphasis: #8f4f91;
+
+                --#{$prefix}light:                     #35363d;
+                --#{$prefix}light-rgb:                   #{to-rgb(#35363d)};
+                --#{$prefix}light-bg-subtle: rgba(#{to-rgb(#35363d)}, 0.2);
+                --#{$prefix}dark:                      #4b4d5c;
+                --#{$prefix}dark-rgb:                    #{to-rgb(#4b4d5c)};
+
+                --#{$prefix}chart-primary:                           #6E3A6F;
+                --#{$prefix}chart-primary-rgb:                       #{to-rgb(#6E3A6F)};
+            }
+        }
+    }
+}

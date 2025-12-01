@@ -1,0 +1,190 @@
+// 
+// Leafline Theme Mode
+//
+
+$theme-leafline-colors: (
+  "primary":   #3E5F3E,   // forest green – grounding and natural
+  "secondary": #A8B697,   // eucalyptus – subtle and soft balance
+  "success":   #6DA75D,   // leaf green – bright and healthy
+  "info":      #89BDBF,   // morning dew – cool and refreshing
+  "warning":   #E2C07C,   // golden leaf – warm and organic
+  "danger":    #A25B5B,   // dry bark red – muted and earthy
+  "purple":    #9D8FA5,   // woodland violet – soft floral tone
+  "dark":      #2E3B2C    // moss bark – deep, natural contrast
+);
+
+
+@if $theme-leafline ==true {
+
+    @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+    html[data-skin="leafline"] {
+
+        --#{$prefix}font-sans-serif:        "Jost", sans-serif;
+
+        --#{$prefix}body-bg:               #f5f6f7;
+
+        --#{$prefix}border-radius:               .3rem;
+        --#{$prefix}border-radius-sm:            .25rem;
+        --#{$prefix}border-radius-lg:            .4rem;
+        --#{$prefix}border-radius-xl:            .5rem;
+
+        --#{$prefix}font-size-xxs:          12px;
+        --#{$prefix}font-size-xs:           13px;
+        --#{$prefix}font-size-base:         0.875rem;
+        --#{$prefix}font-size-md:           15px;
+        --#{$prefix}font-size-lg:           16px;
+        --#{$prefix}font-size-xl:           18px;
+        --#{$prefix}font-size-xxl:          20px;
+
+        --#{$prefix}chart-primary:                           #3E5F3E;
+        --#{$prefix}chart-primary-rgb:                       #{to-rgb(#3E5F3E)};
+        --#{$prefix}chart-secondary:                         #6DA75D;
+        --#{$prefix}chart-secondary-rgb:                     #{to-rgb(#6DA75D)};
+        --#{$prefix}chart-gray:                              #A8B697;
+        --#{$prefix}chart-gray-rgb:                          #{to-rgb(#A8B697)};
+        --#{$prefix}chart-dark:                              #A25B5B;
+        --#{$prefix}chart-dark-rgb:                          #{to-rgb(#A25B5B)};
+
+        //Sidenav
+        --#{$prefix}sidenav-item-font-weight:                500;
+        --#{$prefix}sidenav-item-font-size:                  0.875rem;
+
+
+        @each $name, $value in $theme-leafline-colors {
+            --#{$prefix}#{$name}: #{$value};
+        }
+
+        @each $name, $value in $theme-leafline-colors {
+            --#{$prefix}#{$name}-rgb: #{to-rgb($value)};
+        }
+
+        @each $name, $value in $theme-leafline-colors {
+            --#{$prefix}#{$name}-bg-subtle: #{rgba($value, 0.15)};
+        }
+
+        @each $name, $value in $theme-leafline-colors {
+            --#{$prefix}#{$name}-border-subtle: #{rgba($value, 0.3)};
+        }
+
+        @each $name, $value in $theme-leafline-colors {
+            --#{$prefix}#{$name}-text-emphasis: #{shade-color($value, 25%)};
+        }
+
+        // Background Light left-sidebar
+        &[data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                       #{$white};
+            --#{$prefix}sidenav-border-color:             #{$gray-200};
+            --#{$prefix}sidenav-item-color:               #63666a;
+            --#{$prefix}sidenav-item-hover-color:         #23303c;
+            --#{$prefix}sidenav-item-hover-bg:          #f3f4f6;
+            --#{$prefix}sidenav-item-active-color:        #23303c;
+            --#{$prefix}sidenav-item-active-bg:         #f3f4f6;
+        }
+
+        // Dark Left Sidebar
+        &[data-sidenav-color="dark"] {
+            --#{$prefix}sidenav-bg:                   #192319; // deep forest background
+            --#{$prefix}sidenav-border-color:         #2a382a; // subtle dark green edge
+            --#{$prefix}sidenav-item-color:           #a8b79a; // muted herbal text
+            --#{$prefix}sidenav-item-hover-color:     #a3d86c; // bright leaf green on hover
+            --#{$prefix}sidenav-item-hover-bg:        #1d271d; // earthy hover background
+            --#{$prefix}sidenav-item-active-color:    #dce9cc; // soft green cream for active
+            --#{$prefix}sidenav-item-active-bg:       #243124; // richer dark for active bg
+        }
+
+        // Dark Mode
+        &[data-bs-theme="dark"][data-sidenav-color="dark"],
+        &[data-bs-theme="dark"][data-sidenav-color="light"] {
+            --#{$prefix}sidenav-bg:                   #192319; // deep forest background
+            --#{$prefix}sidenav-border-color:         #2a382a; // subtle dark green edge
+            --#{$prefix}sidenav-item-color:           #a8b79a; // muted herbal text
+            --#{$prefix}sidenav-item-hover-color:     #a3d86c; // bright leaf green on hover
+            --#{$prefix}sidenav-item-hover-bg:        #1d271d; // earthy hover background
+            --#{$prefix}sidenav-item-active-color:    #dce9cc; // soft green cream for active
+            --#{$prefix}sidenav-item-active-bg:       #243124; // richer dark for active bg
+        }
+
+
+        // Light Topbar
+        &[data-topbar-color="light"] {
+            --#{$prefix}topbar-bg:                      #ffffff;
+            --#{$prefix}topbar-item-color:                #63666a;
+            --#{$prefix}topbar-item-hover-color:          #{$primary};
+            --#{$prefix}topbar-search-bg:                 transparent;
+            --#{$prefix}topbar-search-border:           #e7e9eb;
+        }
+
+        // Dark Topbar
+        &[data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                   #172117; // deep leafy background
+            --#{$prefix}topbar-item-color:           #b6c3a3; // soft sage text
+            --#{$prefix}topbar-item-hover-color:     #a3d86c; // leaf green highlight
+            --#{$prefix}topbar-search-bg:            #1e281e; // muted forest input
+            --#{$prefix}topbar-search-border:        #2a382a; // natural border tone
+        }
+
+        // Topbar (Leafline Dark Mode)
+        &[data-bs-theme="dark"][data-topbar-color="light"],
+        &[data-bs-theme="dark"][data-topbar-color="dark"] {
+            --#{$prefix}topbar-bg:                   #172117; // deep leafy background
+            --#{$prefix}topbar-item-color:           #b6c3a3; // soft sage text
+            --#{$prefix}topbar-item-hover-color:     #a3d86c; // leaf green highlight
+            --#{$prefix}topbar-search-bg:            #1e281e; // muted forest input
+            --#{$prefix}topbar-search-border:        #2a382a; // natural border tone
+        }
+
+    }
+
+    @if $enable-dark-mode {
+        @include color-mode(dark, true) {
+            &[data-skin="leafline"] {
+                // Body
+                --#{$prefix}body-bg:                   #121912; // deep forest green
+                --#{$prefix}body-color:               #b6c3a3; // soft sage text
+                --#{$prefix}body-color-rgb:           #{to-rgb(#b6c3a3)};
+                --#{$prefix}heading-color:            #dce9cc; // pale green cream
+
+                // Backgrounds
+                --#{$prefix}secondary-bg:             #192319; // darker leaf base
+                --#{$prefix}tertiary-bg:              #1f2a1f; // olive-black blend
+                --#{$prefix}light:                    #334033; // dark moss
+                --#{$prefix}light-rgb:                #{to-rgb(#334033)};
+                --#{$prefix}light-bg-subtle:          rgba(#{to-rgb(#334033)}, 0.3);
+                --#{$prefix}dark:                     #2a3c2a; // night green
+                --#{$prefix}dark-rgb:                 #{to-rgb(#2a3c2a)};
+
+                // Text & Color
+                --#{$prefix}secondary-color:          #a8b79a; // muted herbal
+                --#{$prefix}tertiary-color:           rgba(#{to-rgb(#a8b79a)}, 0.5);
+                --#{$prefix}emphasis-color:           rgba(#{to-rgb(#dce9cc)}, 0.4);
+                --#{$prefix}link-color:               #dce9cc;
+                --#{$prefix}link-color-rgb:           #{to-rgb(#dce9cc)};
+
+                // Border & Shadow
+                --#{$prefix}border-color:             #2a382a;
+                --#{$prefix}border-color-translucent: #5a6e58;
+                --#{$prefix}box-shadow:               0px 0px 28px rgba(4, 8, 4, 0.5);
+
+                // Primary Theme Color (leaf green accent)
+                --#{$prefix}primary:                  #7cae4c; // leafy green
+                --#{$prefix}primary-rgb:              #{to-rgb(#7cae4c)};
+                --#{$prefix}primary-bg-subtle:        rgba(#{to-rgb(#7cae4c)}, 0.2);
+                --#{$prefix}primary-text-emphasis:    #a3d86c;
+
+                // Charts
+                --#{$prefix}chart-primary:            #7cae4c;
+                --#{$prefix}chart-primary-rgb:        #{to-rgb(#7cae4c)};
+                --#{$prefix}chart-secondary:          #5e8142;
+                --#{$prefix}chart-secondary-rgb:      #{to-rgb(#5e8142)};
+                --#{$prefix}chart-gray:               #d4e3ca;
+                --#{$prefix}chart-gray-rgb:           #{to-rgb(#d4e3ca)};
+                --#{$prefix}chart-dark:               #2e3b2d;
+                --#{$prefix}chart-dark-rgb:           #{to-rgb(#2e3b2d)};
+                --#{$prefix}chart-border-color:       #374b35;
+                --#{$prefix}chart-title-color:        #cde6b4;
+            }
+
+        }
+    }
+}
