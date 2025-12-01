@@ -1,0 +1,5 @@
+MAIL_ACCOUNT = itpulsenetwork
+MONGOOSE_DB_URL = mongodb+srv://jobportal2025:jobportalpass2025@cluster0.uebotno.mongodb.net/JobPortal?appName=Cluster0
+MONGOOSE_DB_USER = jobportal2025
+MONGOOSE_DB_PASSWORD = jobportalpass2025s
+JWT_SECRET=bdbwjdbwjkdbkwqj
