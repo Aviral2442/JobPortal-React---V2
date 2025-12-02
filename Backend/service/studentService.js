@@ -6,6 +6,7 @@ const studentAddressModel = require('../models/student/studentAddressModel');
 const studentBasicDetailModel = require('../models/student/studentBasicDetailModel');
 const StudentBankInfo = require('../models/student/studentBankDataModel');
 const StudentBodyDetails = require('../models/student/studentBodyDetailModel');
+const StudentPreferences = require('../models/student/studentCareerPreferenceModel');
 const sendEmailOtp = require('../utils/emailOtp');
 
 // STUDENT LIST SERVICE
@@ -550,6 +551,56 @@ exports.updateStudentBodyDetails = async (studentId, studentBodyDetailsData) => 
         return {
             status: 500,
             message: 'An error occurred during student body detail update',
+            error: error.message
+        };
+    }
+};
+
+// UPDATE STUDENT CAREER PREFERENCES SERVICE
+exports.updateStudentPreferences = async (studentId, studentPreferencesData) => {
+    try {
+
+        const fetchStudent = await studentModel.findById(studentId);
+        if (!fetchStudent) {
+            return {
+                status: 404,
+                message: 'Student not found with the provided ID'
+            };
+        }
+
+        const updateStdPrferenceData = await StudentPreferences.findOneAndUpdate(
+            { studentId },
+            {
+                preferredJobCategory: studentPreferencesData.preferredJobCategory,
+                preferredJobLocation: studentPreferencesData.preferredJobLocation,
+                expectedSalaryMin: studentPreferencesData.expectedSalaryMin,
+                expectedSalaryMax: studentPreferencesData.expectedSalaryMax,
+                employmentType: studentPreferencesData.employmentType,
+                willingToRelocate: studentPreferencesData.willingToRelocate,
+                updatedAt: currentUnixTimeStamp()
+            },
+            {
+                new: true,
+                upsert: true,
+                setDefaultsOnInsert: true
+            }
+        );
+
+        if (studentId) {
+            fetchStudent.profileCompletion.studentPreferencesData = 1;
+            await fetchStudent.save();
+        }
+
+        return {
+            status: 200,
+            message: 'Student career preferences saved successfully',
+            jsonData: updateStdPrferenceData
+        };
+
+    } catch (error) {
+        return {
+            status: 500,
+            message: 'An error occurred during student career preferences update',
             error: error.message
         };
     }

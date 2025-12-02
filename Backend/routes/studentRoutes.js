@@ -13,5 +13,6 @@ router.put('/updateStudentAddress/:studentId', studentController.updateStudentAd
 router.put('/updateStudentBasicDetails/:studentId', studentController.updateStudentBasicDetail);
 router.put('/updateStudentBankDetails/:studentId', upload('StudentBankDetails').single('passbookUrl'), studentController.updateStudentBankDetails);
 router.put('/updateStudentBodyDetails/:studentId', studentController.updateStudentBodyDetails);
+router.put('/updateStudentCareerPreferences/:studentId', studentController.updateStudentPreferences);
 
 module.exports = router;

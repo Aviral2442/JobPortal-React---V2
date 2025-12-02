@@ -1,24 +1,23 @@
-// models/StudentPreferences.js
 const mongoose = require("mongoose");
+const {currentUnixTimeStamp} = require("../../utils/currentUnixTimeStamp");
 
 const StudentPreferencesSchema = new mongoose.Schema({
   studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true, index: true },
 
-  preferredJobSector: { type: String }, // Government/Private/PSU
-  preferredJobCategory: { type: String },
-  preferredJobLocation: { type: String },
-  expectedSalaryMin: { type: Number },
-  expectedSalaryMax: { type: Number },
+  preferredJobCategory: { type: [String], default: [] },
+  preferredJobLocation: { type: [String], default: [] },
+  expectedSalaryMin: { type: Number, default: 0 },
+  expectedSalaryMax: { type: Number, default: 0 },
 
-  employmentType: { type: String }, // full-time/part-time/internship/remote
+  employmentType: { type: [String], default: [] },
   willingToRelocate: { type: Boolean, default: false },
 
-  createdAt: { type: Number, default: () => Date.now() },
-  updatedAt: { type: Number, default: () => Date.now() }
+  createdAt: { type: Number, default: () => currentUnixTimeStamp() },
+  updatedAt: { type: Number, default: () => currentUnixTimeStamp() }
 });
 
-StudentPreferencesSchema.pre("save", function(next){
-  this.updatedAt = Date.now();
+StudentPreferencesSchema.pre("save", function (next) {
+  this.updatedAt = currentUnixTimeStamp();
   next();
 });
 
