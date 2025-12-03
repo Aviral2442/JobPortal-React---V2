@@ -13,6 +13,7 @@ const StudentEducation = require('../models/student/studentEducationModel');
 const StudentEmergencyContact = require('../models/student/studentEmergencyModel');
 const StudentParentalInfo = require('../models/student/studentParentsModel');
 const StudentSkills = require('../models/student/studentSkillModel');
+const StudentSocialLinks = require('../models/student/studentSocialLinkModel');
 const sendEmailOtp = require('../utils/emailOtp');
 
 // STUDENT LIST SERVICE
@@ -975,3 +976,46 @@ exports.updateStudentSkills = async (studentId, studentSkillsData) => {
         };
     }
 };
+
+// UPDATE STUDENT SOCIAL LINK SERVICE
+exports.updateStudentSocialLink = async (studentId, studentSocial) => {
+    try {
+
+        const fetchStudent = await studentModel.findById(studentId);
+        if (!fetchStudent) {
+            return {
+                status: 404,
+                message: 'Student not found with the provided ID'
+            };
+        }
+
+        const updateStdSocialLink = await StudentSocialLinks.findOneAndUpdate(
+            { studentId },
+            {
+                linkedInUrl: studentSocial.linkedInUrl,
+                githubUrl: studentSocial.githubUrl,
+                portfolioUrl: studentSocial.portfolioUrl,
+                facebookUrl: studentSocial.facebookUrl,
+                instagramUrl: studentSocial.instagramUrl,
+                updatedAt: currentUnixTimeStamp()
+            },
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+
+        fetchStudent.profileCompletion.studentSocialData = 1;
+        await fetchStudent.save();
+
+        return {
+            status: 200,
+            message: 'Student social link updated successfully',
+            jsonData: updateStdSocialLink
+        };
+
+    } catch (error) {
+        return {
+            status: 500,
+            message: 'An error occurred during student social link update',
+            error: error.message
+        };
+    }
+}
