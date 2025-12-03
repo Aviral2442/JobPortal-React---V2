@@ -21,5 +21,6 @@ router.put('/updateStudentEmergencyContact/:studentId', studentController.update
 router.put('/updateStudentParentalInfo/:studentId', studentController.updateStudentParentsInfo);
 router.put('/updateStudentSkills/:studentId', studentController.updateStudentSkills);
 router.put('/updateStudentSocialLinks/:studentId', studentController.updateStudentSocialLink);
+router.put('/updateStudentWorkExperience/:studentId', studentController.updateStudentWorkExperience);
 
 module.exports = router;

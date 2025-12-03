@@ -26,7 +26,7 @@ const StudentSchema = new mongoose.Schema({
         studentDocumentsData: { type: Number, default: 0 },
         studentCertificationsData: { type: Number, default: 0 },
         studentSkillsData: { type: Number, default: 0 },
-        studentExperienceData: { type: Number, default: 0 },
+        studentWorkExperienceData: { type: Number, default: 0 },
         studentPreferencesData: { type: Number, default: 0 },
         studentBankData: { type: Number, default: 0 },
         studentEmergencyData: { type: Number, default: 0 },

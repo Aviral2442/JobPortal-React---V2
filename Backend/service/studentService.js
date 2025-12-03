@@ -1,6 +1,7 @@
 const { buildDateFilter } = require('../utils/dateFilters');
 const { buildPagination } = require('../utils/paginationFilters');
 const { currentUnixTimeStamp } = require('../utils/currentUnixTimeStamp');
+const { convertIntoUnixTimeStamp } = require('../utils/convertIntoUnixTimeStamp');
 const studentModel = require('../models/studentModel');
 const studentAddressModel = require('../models/student/studentAddressModel');
 const studentBasicDetailModel = require('../models/student/studentBasicDetailModel');
@@ -14,6 +15,7 @@ const StudentEmergencyContact = require('../models/student/studentEmergencyModel
 const StudentParentalInfo = require('../models/student/studentParentsModel');
 const StudentSkills = require('../models/student/studentSkillModel');
 const StudentSocialLinks = require('../models/student/studentSocialLinkModel');
+const StudentExperience = require('../models/student/studentWorkExprienceModel');
 const sendEmailOtp = require('../utils/emailOtp');
 
 // STUDENT LIST SERVICE
@@ -1019,3 +1021,60 @@ exports.updateStudentSocialLink = async (studentId, studentSocial) => {
         };
     }
 }
+
+// UPDATE STUDENT WORK EXPERIENCE SERVICE
+exports.updateStudentWorkExperience = async (studentId, studentWorkExperienceData) => {
+    try {
+        const fetchStudent = await studentModel.findById(studentId);
+
+        if (!fetchStudent) {
+            return {
+                status: 404,
+                message: 'Student not found with the provided ID'
+            };
+        }
+
+        let experiences = studentWorkExperienceData.experiences || [];
+
+        if (!Array.isArray(experiences)) {
+            experiences = [experiences];
+        }
+
+        experiences = experiences
+            .filter(exp => exp && Object.keys(exp).length > 0) // remove empty objects
+            .map(exp => {
+                if (exp.startDate) {
+                    exp.startDate = convertIntoUnixTimeStamp(exp.startDate);
+                }
+                if (exp.endDate) {
+                    exp.endDate = convertIntoUnixTimeStamp(exp.endDate);
+                }
+                return exp;
+            });
+
+        const updateStdWorkExperienceData = await StudentExperience.findOneAndUpdate(
+            { studentId },
+            {
+                experiences,
+                updatedAt: currentUnixTimeStamp()
+            },
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+
+        fetchStudent.profileCompletion.studentWorkExperienceData = 1;
+        await fetchStudent.save();
+
+        return {
+            status: 200,
+            message: 'Student work experience updated successfully',
+            jsonData: updateStdWorkExperienceData
+        };
+
+    } catch (error) {
+        return {
+            status: 500,
+            message: 'An error occurred during student work experience update',
+            error: error.message
+        };
+    }
+};
