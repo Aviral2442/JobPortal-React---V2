@@ -1,11 +1,11 @@
-// models/StudentEducation.js
 const mongoose = require("mongoose");
+const { currentUnixTimestamp } = require("../../utils/currentUnixTimeStamp");
 
 const StudentEducationSchema = new mongoose.Schema({
   studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true, index: true },
 
   highestQualification: String,
-  currentEducationStatus: { type: String, enum: ["studying","completed","dropped","other"], default: "studying" },
+  currentEducationStatus: { type: String, enum: ["studying", "completed", "dropped", "other"], default: "studying" },
 
   tenth: {
     schoolName: String,
@@ -49,12 +49,12 @@ const StudentEducationSchema = new mongoose.Schema({
     vocationalCourse: String
   },
 
-  createdAt: { type: Number, default: () => Date.now() },
-  updatedAt: { type: Number, default: () => Date.now() }
+  createdAt: { type: Number, default: () => currentUnixTimestamp() },
+  updatedAt: { type: Number, default: () => currentUnixTimestamp() }
 });
 
-StudentEducationSchema.pre("save", function(next){
-  this.updatedAt = Date.now();
+StudentEducationSchema.pre("save", function (next) {
+  this.updatedAt = currentUnixTimestamp();
   next();
 });
 

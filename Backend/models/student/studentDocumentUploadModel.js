@@ -1,20 +1,5 @@
-// models/StudentDocuments.js
 const mongoose = require("mongoose");
 const { currentUnixTimeStamp } = require("../../utils/currentUnixTimeStamp");
-
-// Each single education record 
-const EducationSchema = new mongoose.Schema({
-  level: { type: String, required: true },
-  // Examples: "10th", "12th", "UG", "PG", "Diploma", "Certificate", "PhD"
-
-  file: { type: String, required: true },
-  boardName: { type: String, required: true },
-  passingYear: { type: String, required: true },
-  maxMarks: { type: String, required: true },
-  obtainedMarks: { type: String, required: true },
-  percentage: { type: String, required: true }
-}, { _id: true });
-
 
 // Identity documents
 const IdentityDocumentSchema = new mongoose.Schema({
@@ -22,20 +7,20 @@ const IdentityDocumentSchema = new mongoose.Schema({
   aadharFrontImg: { type: String },
   aadharBackImg: { type: String },
 
-  panNumber: { type: String },
+  panNumber: { type: String, unique: true, sparse: true },
   panImg: { type: String },
 
-  voterId: { type: String },
+  voterId: { type: String, unique: true, sparse: true },
 
-  passportNumber: { type: String },
+  passportNumber: { type: String, unique: true, sparse: true },
 
-  drivingLicenseNo: { type: String },
+  drivingLicenseNo: { type: String, unique: true, sparse: true },
   drivingLicenseFrontImg: { type: String },
 
-  categoryCertificateUrl: { type: String },
-  domicileCertificateUrl: { type: String },
-  incomeCertificateUrl: { type: String },
-  birthCertificateUrl: { type: String }
+  categoryCertificateImg: { type: String },
+  domicileCertificateImg: { type: String },
+  incomeCertificateImg: { type: String },
+  birthCertificateImg: { type: String }
 }, { _id: false });
 
 
@@ -46,13 +31,11 @@ const OtherDocumentSchema = new mongoose.Schema({
 }, { _id: true });
 
 
-// FINAL MAIN MODEL
 const StudentDocumentsSchema = new mongoose.Schema({
   studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true, unique: true },
 
-  education: { type: [EducationSchema], default: [] },       // All academic docs
   identityDocuments: { type: IdentityDocumentSchema, default: {} },
-  otherDocuments: { type: [OtherDocumentSchema], default: [] }, // Extra docs
+  otherDocuments: { type: [OtherDocumentSchema], default: [] },
 
   createdAt: { type: Number, default: () => currentUnixTimeStamp() },
   updatedAt: { type: Number, default: () => currentUnixTimeStamp() }

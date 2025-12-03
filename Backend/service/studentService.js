@@ -676,42 +676,17 @@ exports.updateStudentCertificates = async (studentId, studentCertificateData) =>
 // UPDATE STUDENT DOCUMENT UPLOAD SERVICE
 exports.updateStudentDocumentUpload = async (studentId, data) => {
     try {
-        // Validate student
         const student = await studentModel.findById(studentId);
         if (!student) {
             return { status: 404, message: "Student not found" };
         }
 
-        // Fetch existing record or create new
         let existing = await StudentDocumentUpload.findOne({ studentId });
 
         if (!existing) {
             existing = new StudentDocumentUpload({ studentId });
         }
 
-        /** ------------------------------------------------------
-         * 1️⃣ EDUCATION DOCUMENTS
-         * ------------------------------------------------------ */
-        if (data.education) {
-            const eduArray = JSON.parse(data.education);
-
-            eduArray.forEach(newEdu => {
-                if (newEdu._id) {
-                    // UPDATE EXISTING EDUCATION
-                    const index = existing.education.findIndex(e => e._id.toString() === newEdu._id);
-                    if (index !== -1) {
-                        existing.education[index] = { ...existing.education[index]._doc, ...newEdu };
-                    }
-                } else {
-                    // INSERT NEW EDUCATION
-                    existing.education.push(newEdu);
-                }
-            });
-        }
-
-        /** ------------------------------------------------------
-         * 2️⃣ IDENTITY DOCUMENTS (MERGE)
-         * ------------------------------------------------------ */
         if (data.identityDocuments) {
             const identity = JSON.parse(data.identityDocuments);
 
@@ -721,9 +696,6 @@ exports.updateStudentDocumentUpload = async (studentId, data) => {
             };
         }
 
-        /** ------------------------------------------------------
-         * 3️⃣ OTHER DOCUMENTS
-         * ------------------------------------------------------ */
         if (data.otherDocuments) {
             const otherArray = JSON.parse(data.otherDocuments);
 
@@ -739,18 +711,15 @@ exports.updateStudentDocumentUpload = async (studentId, data) => {
             });
         }
 
-        /** ------------------------------------------------------
-         * 4️⃣ FILE FIELDS UPDATE (ONLY IF FILE SENT)
-         * ------------------------------------------------------ */
         const identityFileFields = [
             "aadharFrontImg",
             "aadharBackImg",
             "panImg",
             "drivingLicenseFrontImg",
-            "categoryCertificateUrl",
-            "domicileCertificateUrl",
-            "incomeCertificateUrl",
-            "birthCertificateUrl"
+            "categoryCertificateImg",
+            "domicileCertificateImg",
+            "incomeCertificateImg",
+            "birthCertificateImg"
         ];
 
         identityFileFields.forEach(field => {
@@ -759,13 +728,9 @@ exports.updateStudentDocumentUpload = async (studentId, data) => {
             }
         });
 
-        /** ------------------------------------------------------
-         * 5️⃣ UPDATE & SAVE
-         * ------------------------------------------------------ */
         existing.updatedAt = currentUnixTimeStamp();
         await existing.save();
 
-        // Set student profile completion
         student.profileCompletion.studentDocumentsData = 1;
         await student.save();
 
