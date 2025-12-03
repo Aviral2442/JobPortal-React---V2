@@ -1,5 +1,5 @@
-// models/StudentParentalInfo.js
 const mongoose = require("mongoose");
+const { currentUnixTimeStamp } = require("../../utils/currentUnixTimeStamp");
 
 const StudentParentalInfoSchema = new mongoose.Schema({
   studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true, index: true },
@@ -13,7 +13,7 @@ const StudentParentalInfoSchema = new mongoose.Schema({
   motherName: String,
   motherContactNumber: String,
   motherOccupation: String,
-  motherEmail: String,
+  motherEmail: {type: String, lowercase: true, trim: true},
   motherAnnualIncome: Number,
 
   guardianName: String,
@@ -21,14 +21,14 @@ const StudentParentalInfoSchema = new mongoose.Schema({
   guardianContactNumber: String,
 
   numberOfFamilyMembers: { type: Number },
-  familyType: { type: String, enum: ["joint","nuclear","other"] },
+  familyType: { type: String, enum: ["joint", "nuclear", "other"] },
 
-  createdAt: { type: Number, default: () => Date.now() },
-  updatedAt: { type: Number, default: () => Date.now() }
+  createdAt: { type: Number, default: () => currentUnixTimeStamp() },
+  updatedAt: { type: Number, default: () => currentUnixTimeStamp() }
 });
 
-StudentParentalInfoSchema.pre("save", function(next){
-  this.updatedAt = Date.now();
+StudentParentalInfoSchema.pre("save", function (next) {
+  this.updatedAt = currentUnixTimeStamp();
   next();
 });
 

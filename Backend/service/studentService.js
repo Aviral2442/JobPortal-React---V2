@@ -11,6 +11,7 @@ const StudentCertifications = require('../models/student/studentCertificatesMode
 const StudentDocumentUpload = require('../models/student/studentDocumentUploadModel');
 const StudentEducation = require('../models/student/studentEducationModel');
 const StudentEmergencyContact = require('../models/student/studentEmergencyModel');
+const StudentParentalInfo = require('../models/student/studentParentsModel');
 const sendEmailOtp = require('../utils/emailOtp');
 
 // STUDENT LIST SERVICE
@@ -837,6 +838,60 @@ exports.updateStudentEmergencyData = async (studentId, studentEmergencyData) => 
         return {
             status: 500,
             message: 'An error occurred during student emergency contact update',
+            error: error.message
+        };
+    }
+};
+
+// UPDATE STUDENT PARENTAL INFO SERVICE
+exports.updateStudentParentsInfo = async (studentId, studentParentsData) => {
+    try {
+
+        const fetchStudent = await studentModel.findById(studentId);
+        if (!fetchStudent) {
+            return {
+                status: 404,
+                message: 'Student not found with the provided ID'
+            };
+        }
+
+        const updateStdParentsData = await StudentParentalInfo.findOneAndUpdate(
+            { studentId },
+            {
+                fatherName: studentParentsData.fatherName,
+                fatherContactNumber: studentParentsData.fatherContactNumber,
+                fatherOccupation: studentParentsData.fatherOccupation,
+                fatherEmail: studentParentsData.fatherEmail,
+                fatherAnnualIncome: studentParentsData.fatherAnnualIncome,
+                motherName: studentParentsData.motherName,
+                motherContactNumber: studentParentsData.motherContactNumber,
+                motherOccupation: studentParentsData.motherOccupation,
+                motherEmail: studentParentsData.motherEmail,
+                motherAnnualIncome: studentParentsData.motherAnnualIncome,
+                guardianName: studentParentsData.guardianName,
+                guardianRelation: studentParentsData.guardianRelation,
+                guardianContactNumber: studentParentsData.guardianContactNumber,
+                numberOfFamilyMembers: studentParentsData.numberOfFamilyMembers,
+                familyType: studentParentsData.familyType,
+                updatedAt: currentUnixTimeStamp()
+            },
+            {
+                new: true,
+                upsert: true,
+                setDefaultsOnInsert: true
+            }
+        );
+
+        return {
+            status: 200,
+            message: 'Student parental info updated successfully',
+            jsonData: updateStdParentsData
+        };
+
+    } catch (error) {
+        return {
+            status: 500,
+            message: 'An error occurred during student parental info update',
             error: error.message
         };
     }
