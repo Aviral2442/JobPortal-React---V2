@@ -10,6 +10,7 @@ const StudentPreferences = require('../models/student/studentCareerPreferenceMod
 const StudentCertifications = require('../models/student/studentCertificatesModel');
 const StudentDocumentUpload = require('../models/student/studentDocumentUploadModel');
 const StudentEducation = require('../models/student/studentEducationModel');
+const StudentEmergencyContact = require('../models/student/studentEmergencyModel');
 const sendEmailOtp = require('../utils/emailOtp');
 
 // STUDENT LIST SERVICE
@@ -795,6 +796,47 @@ exports.updateStudentEducation = async (studentId, studentEducationData) => {
         return {
             status: 500,
             message: 'An error occurred during student education update',
+            error: error.message
+        };
+    }
+};
+
+// UPDATE STUDENT EMERGENCY CONTACT SERVICE
+exports.updateStudentEmergencyData = async (studentId, studentEmergencyData) => {
+    try {
+
+        const fetchStudent = await studentModel.findById(studentId);
+        if (!fetchStudent) {
+            return {
+                status: 404,
+                message: 'Student not found with the provided ID'
+            };
+        }
+
+        const updatestudentEmergencyData = {
+            emergencyContactName: studentEmergencyData.emergencyContactName,
+            emergencyRelation: studentEmergencyData.emergencyRelation,
+            emergencyPhoneNumber: studentEmergencyData.emergencyPhoneNumber,
+            emergencyAddress: studentEmergencyData.emergencyAddress,
+            updatedAt: currentUnixTimeStamp()
+        };
+
+        const updateStdEmergencyData = await StudentEmergencyContact.findOneAndUpdate(
+            { studentId },
+            updatestudentEmergencyData,
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+
+        return {
+            status: 200,
+            message: 'Student emergency contact updated successfully',
+            jsonData: updateStdEmergencyData
+        };
+
+    } catch (error) {
+        return {
+            status: 500,
+            message: 'An error occurred during student emergency contact update',
             error: error.message
         };
     }
