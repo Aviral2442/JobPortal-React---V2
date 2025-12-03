@@ -231,3 +231,14 @@ exports.updateStudentWorkExperience = async (req, res) => {
         return res.status(500).json({ status: 500, message: 'Internal server error', error: error.message });
     }
 };
+
+// STUDENT PROGRESS METER CONTROLLER
+exports.studentProgressMeter = async (req, res) => {
+    try {
+        const studentId = req.params.studentId;
+        const result = await studentService.studentProgressMeter(studentId);
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(500).json({ status: 500, message: 'Internal server error', error: error.message });
+    }
+};

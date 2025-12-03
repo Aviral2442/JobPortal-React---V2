@@ -80,6 +80,45 @@ exports.studentListService = async (query) => {
     }
 }
 
+// STUDENT PROGRESS METER SERVICE
+exports.studentProgressMeter = async (studentId) => {
+    try {
+
+        const fetchStudent = await studentModel.findById(studentId);
+        if (!fetchStudent) {
+            return {
+                result: 404,
+                message: "Student not found"
+            };
+        }
+
+        const currentProfileComplete = fetchStudent.profileCompletion || {};
+
+        const calculateCompletionPercentage = (currentProfileComplete) => {
+            const totalSections = Object.keys(currentProfileComplete).length;
+            const completedSections = Object.values(currentProfileComplete).filter(value => value === 1).length;
+            const meterResult = Math.round(((completedSections / totalSections) * 100), 2);
+            return meterResult;
+        };
+
+        return {
+            result: 200,
+            message: "Student profile completion fetched successfully",
+            jsonData: {
+                profileCompletion: currentProfileComplete,
+                completionPercentage: calculateCompletionPercentage(currentProfileComplete)
+            }
+        };
+
+    } catch (error) {
+        return {
+            result: 500,
+            message: "Internal server error",
+            error: error.message
+        };
+    }
+}
+
 // STUDENT REGISTRATION SERVICE
 exports.studentRegistration = async (studentData) => {
     try {
