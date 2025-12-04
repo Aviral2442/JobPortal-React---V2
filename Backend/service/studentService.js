@@ -306,14 +306,96 @@ exports.studentLogin = async (studentLoginData) => {
 };
 
 // STUDENT FORGET PASSWORD SERVICE
+// exports.studentForgetPassword = async (studentForgetData) => {
+//     try {
+
+//         const forgetEmailOrMobileNo = studentForgetData.studentEmailOrMobileNo;
+//         const student = await studentModel.findOne({
+//             $or: [
+//                 { studentEmail: forgetEmailOrMobileNo },
+//                 { studentMobileNo: forgetEmailOrMobileNo }
+//             ]
+//         });
+
+//         if (!student) {
+//             return {
+//                 status: 404,
+//                 message: 'Student not found with the provided email or mobile number'
+//             };
+//         }
+
+//         const generateRandomOTP = () => {
+//             return Math.floor(100000 + Math.random() * 900000).toString();
+//         };
+
+//         const otp = generateRandomOTP();
+//         const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
+
+//         student.studentOtp = otp;
+//         student.studentOtpExpiry = expiry;
+//         await student.save();
+
+//         if (student.studentEmail === forgetEmailOrMobileNo) {
+//             const lowercaseEmail = student.studentEmail.toLowerCase();
+//             await sendEmailOtp(lowercaseEmail, otp);
+
+//             return {
+//                 status: 200,
+//                 message: 'OTP sent to registered email successfully',
+//                 jsonData: {
+//                     studentId: student._id,
+//                     studentEmail: student.studentEmail
+//                 }
+//             };
+//         } else {
+//             console.log('mobile');
+
+//             return {
+//                 status: 200,
+//                 message: 'OTP sent to registered mobile number successfully',
+//                 jsonData: {
+//                     studentId: student._id,
+//                     studentMobileNo: student.studentMobileNo
+//                 }
+//             };
+//         };
+
+//     } catch (error) {
+//         return {
+//             status: 500,
+//             message: 'An error occurred during password reset',
+//             error: error.message
+//         };
+//     }
+// };
+
+// STUDENT FORGET PASSWORD SERVICE
 exports.studentForgetPassword = async (studentForgetData) => {
     try {
 
-        const forgetEmailOrMobileNo = studentForgetData.studentEmailOrMobileNo;
+        let forgetEmailOrMobileNo = studentForgetData.studentEmailOrMobileNo;
+
+        if (!forgetEmailOrMobileNo) {
+            return {
+                status: 400,
+                message: 'Email or mobile number is required'
+            };
+        }
+
+        forgetEmailOrMobileNo = forgetEmailOrMobileNo.trim(); // remove spaces
+
+        const isEmail = forgetEmailOrMobileNo.includes("@");
+
+        // lowercase only if it's an email
+        const formattedInput = isEmail
+            ? forgetEmailOrMobileNo.toLowerCase()
+            : forgetEmailOrMobileNo;
+
+        // 🔹 Find student
         const student = await studentModel.findOne({
             $or: [
-                { studentEmail: forgetEmailOrMobileNo },
-                { studentMobileNo: forgetEmailOrMobileNo }
+                { studentEmail: formattedInput },
+                { studentMobileNo: formattedInput }
             ]
         });
 
@@ -324,6 +406,7 @@ exports.studentForgetPassword = async (studentForgetData) => {
             };
         }
 
+        // 🔹 Generate OTP
         const generateRandomOTP = () => {
             return Math.floor(100000 + Math.random() * 900000).toString();
         };
@@ -331,11 +414,13 @@ exports.studentForgetPassword = async (studentForgetData) => {
         const otp = generateRandomOTP();
         const expiry = Date.now() + 5 * 60 * 1000; // 5 minutes
 
+        // 🔹 Save OTP
         student.studentOtp = otp;
         student.studentOtpExpiry = expiry;
         await student.save();
 
-        if (student.studentEmail === forgetEmailOrMobileNo) {
+        // 🔹 Send EMAIL OTP
+        if (isEmail) {
             const lowercaseEmail = student.studentEmail.toLowerCase();
             await sendEmailOtp(lowercaseEmail, otp);
 
@@ -347,17 +432,16 @@ exports.studentForgetPassword = async (studentForgetData) => {
                     studentEmail: student.studentEmail
                 }
             };
-        } else {
-            console.log('mobile');
+        }
 
-            return {
-                status: 200,
-                message: 'OTP sent to registered mobile number successfully',
-                jsonData: {
-                    studentId: student._id,
-                    studentMobileNo: student.studentMobileNo
-                }
-            };
+        // 🔹 Mobile case
+        return {
+            status: 200,
+            message: 'OTP sent to registered mobile number successfully',
+            jsonData: {
+                studentId: student._id,
+                studentMobileNo: student.studentMobileNo
+            }
         };
 
     } catch (error) {
@@ -368,6 +452,7 @@ exports.studentForgetPassword = async (studentForgetData) => {
         };
     }
 };
+
 
 // VERIFY STUDENT OTP SERVICE
 exports.verifyStudentOtp = async (studentOtpData) => {
