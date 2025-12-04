@@ -78,7 +78,7 @@ exports.studentListService = async (query) => {
             error: error.message
         };
     }
-}
+};
 
 // STUDENT PROGRESS METER SERVICE
 exports.studentProgressMeter = async (studentId) => {
@@ -117,7 +117,7 @@ exports.studentProgressMeter = async (studentId) => {
             error: error.message
         };
     }
-}
+};
 
 // STUDENT ALL DETAILS SERVICE
 exports.studentAllDetails = async (studentId) => {
@@ -1189,6 +1189,41 @@ exports.updateStudentWorkExperience = async (studentId, studentWorkExperienceDat
         return {
             status: 500,
             message: 'An error occurred during student work experience update',
+            error: error.message
+        };
+    }
+};
+
+// UPLOAD STUDENT RESUME SERVICE
+exports.uploadStudentResume = async (studentId, studentResumeData) => {
+    try {
+        const fetchStudent = await studentModel.findById(studentId);
+        if (!fetchStudent) {
+            return {
+                status: 404,
+                message: 'Student not found with the provided ID'
+            };
+        }
+
+        const studentResumeFilePath = studentResumeData.studentResumeFile;
+
+        fetchStudent.studentResumeFile = studentResumeFilePath;
+        fetchStudent.profileCompletion.studentResume = 1;
+        await fetchStudent.save();
+
+        return {
+            status: 200,
+            message: 'Student resume uploaded successfully',
+            jsonData: {
+                studentId: fetchStudent._id,
+                studentResumeFile: fetchStudent.studentResumeFile
+            }
+        };
+
+    } catch (error) {
+        return {
+            status: 500,
+            message: 'An error occurred during student resume upload',
             error: error.message
         };
     }
