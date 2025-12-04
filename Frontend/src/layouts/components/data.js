@@ -1,7 +1,6 @@
 import { TbBellRinging, TbCreditCard, TbHeadset, TbLock, TbLogout2, TbSettings2, TbUserCircle } from 'react-icons/tb';
-import { LuBookUser, LuCalendar, LuChartPie, LuCircleGauge, LuCommand, LuFingerprint, LuLayers2, LuMapPin, LuNotebookText, LuPencilRuler, LuShieldBan, LuSparkles, LuSquarePi, LuTable2, LuUsers } from 'react-icons/lu';
+import { LuCircleGauge, LuUsers } from 'react-icons/lu';
 import { HiOutlineUserGroup } from "react-icons/hi2";
-import { BsBriefcaseFill } from "react-icons/bs";
 
 export const userDropdownItems = [{
   label: 'Welcome back!',
