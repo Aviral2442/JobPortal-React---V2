@@ -1,5 +1,5 @@
 import { TbBellRinging, TbCreditCard, TbHeadset, TbLock, TbLogout2, TbSettings2, TbUserCircle } from 'react-icons/tb';
-import { LuBookUser, LuCalendar, LuChartPie, LuCircleGauge, LuCommand, LuFingerprint, LuLayers2, LuMapPin, LuNotebookText, LuPencilRuler, LuShieldBan, LuSparkles, LuSquarePi, LuTable2 } from 'react-icons/lu';
+import { LuBookUser, LuCalendar, LuChartPie, LuCircleGauge, LuCommand, LuFingerprint, LuLayers2, LuMapPin, LuNotebookText, LuPencilRuler, LuShieldBan, LuSparkles, LuSquarePi, LuTable2, LuUsers } from 'react-icons/lu';
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { BsBriefcaseFill } from "react-icons/bs";
 
@@ -46,6 +46,16 @@ export const menuItems = [{
   label: 'Dashboard',
   icon: LuCircleGauge,
   url: '/admin/dashboard'
+},
+{
+  key: 'manage-students',
+  label: 'Manage Students',
+  icon: LuUsers,
+  children: [{
+    key: 'students',
+    label: 'Students List',
+    url: '/admin/students'
+  }],
 },
 {
   key:'manage-category',

@@ -24,7 +24,7 @@ const AnswerKey = lazy(() => import('@/views/pages/Manage-Jobs/answer-key'));
 const AddAnswerKey = lazy(() => import('@/views/pages/Manage-Jobs/answer-key/components/AddAnswerKey'));
 const Documents = lazy(() => import('@/views/pages/Manage-Jobs/documents'));
 const Admissions = lazy(() => import('@/views/pages/Manage-Jobs/admission'));
-
+const Students = lazy(() => import('@/views/pages/Manage-Students/Student'));
 
 
 
@@ -98,6 +98,12 @@ const jobRoutes=[{
 }
 ];
 
+const studentsRoutes=[{
+  path:'/admin/students',
+  element:<Students/>
+}];
+
+
 const admitRoutes=[{  
   path:'/admin/admit-card',
   element:<AdmitCard/>
@@ -157,6 +163,7 @@ const adminRoutes = [
       ...answerKeyRoutes,
       ...documentsRoutes,
       ...admissionsRoutes,
+      ...studentsRoutes
     ],
   },
 ];
