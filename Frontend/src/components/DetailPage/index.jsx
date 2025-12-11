@@ -10,6 +10,14 @@ const Section = ({ title, children, titleColor = "primary" }) => (
   </div>
 );
 
+const Divider = ({ label }) => (
+  <div className="w-100 mt-3 mb-2">
+    <h6 className="text-muted border-bottom pb-2 mb-0">
+      <strong>{label}</strong>
+    </h6>
+  </div>
+);
+
 const Field = ({
   label,
   value,
@@ -165,7 +173,7 @@ const Field = ({
   );
 };
 
-const DetailPage = ({ data, sections, onUpdate, editable = true }) => {
+const DetailPage = ({ data, sections, onUpdate, editable = false }) => {
   const handleFieldUpdate = (field, value) => {
     onUpdate?.(field, value);
   };
@@ -184,6 +192,15 @@ const DetailPage = ({ data, sections, onUpdate, editable = true }) => {
                   {section.fields.map((field, fieldIndex) => {
                     const colSize = field.cols || 4;
                     const mdSize = field.type === "textarea" ? 12 : 6;
+
+                    // Handle divider type
+                    if (field.type === "divider") {
+                      return (
+                        <Col xs={12} key={fieldIndex}>
+                          <Divider label={field.label} />
+                        </Col>
+                      );
+                    }
 
                     return (
                       <Col lg={colSize} md={mdSize} key={fieldIndex}>
@@ -205,7 +222,11 @@ const DetailPage = ({ data, sections, onUpdate, editable = true }) => {
                 {/* Save Button for Section */}
                 {section.saveButton && (
                   <div className="text-end mt-3">
-                    <Button size="sm" variant="primary" onClick={section.saveButton}>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={section.saveButton}
+                    >
                       Save {section.title}
                     </Button>
                   </div>

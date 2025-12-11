@@ -37,6 +37,9 @@ const StudentDetail = () => {
   const flattenData = (data) => {
     if (!data) return {};
 
+    // Get the first experience if exists (for single experience display)
+    const firstExperience = data.studentWorkExperienceData?.experiences?.[0] || {};
+
     return {
       // Primary Data
       studentProfilePic: data.studentPrimaryData?.studentProfilePic,
@@ -131,12 +134,18 @@ const StudentDetail = () => {
       drivingLicenseNo: data.studentDocumentUploadData?.identityDocuments?.drivingLicenseNo,
 
       // Career Preferences
-      preferredJobCategory: data.studentCareerPreferencesData?.preferredJobCategory || [],
-      preferredJobLocation: data.studentCareerPreferencesData?.preferredJobLocation || [],
-      expectedSalaryMin: data.studentCareerPreferencesData?.expectedSalaryMin,
-      expectedSalaryMax: data.studentCareerPreferencesData?.expectedSalaryMax,
-      employmentType: data.studentCareerPreferencesData?.employmentType || [],
-      willingToRelocate: data.studentCareerPreferencesData?.willingToRelocate,
+      preferredJobCategory: Array.isArray(data.studentPreferencesData?.preferredJobCategory)
+        ? data.studentPreferencesData.preferredJobCategory.join(', ')
+        : (data.studentPreferencesData?.preferredJobCategory || ''),
+      preferredJobLocation: Array.isArray(data.studentPreferencesData?.preferredJobLocation)
+        ? data.studentPreferencesData.preferredJobLocation.join(', ')
+        : (data.studentPreferencesData?.preferredJobLocation || ''),
+      expectedSalaryMin: data.studentPreferencesData?.expectedSalaryMin,
+      expectedSalaryMax: data.studentPreferencesData?.expectedSalaryMax,
+      employmentType: Array.isArray(data.studentPreferencesData?.employmentType)
+        ? data.studentPreferencesData.employmentType.join(', ')
+        : (data.studentPreferencesData?.employmentType || ''),
+      willingToRelocate: data.studentPreferencesData?.willingToRelocate,
 
       // Education Details
       highestQualification: data.studentEducationData?.highestQualification,
@@ -185,12 +194,46 @@ const StudentDetail = () => {
       instagramUrl: data.studentSocialLinksData?.instagramUrl,
 
       // Work Experience
-      totalExperienceMonths: data.studentWorkExperienceData?.totalExperienceMonths,
+      totalExperienceMonths: data.studentWorkExperienceData?.totalExperienceMonths || 0,
+      companyName: firstExperience.companyName || '',
+      jobTitle: firstExperience.jobTitle || '',
+      jobType: firstExperience.jobType || '',
+      experienceDurationMonths: firstExperience.experienceDurationMonths || 0,
+      experienceStartDate: firstExperience.startDate || '',
+      experienceEndDate: firstExperience.endDate || '',
+      responsibilities: firstExperience.responsibilities || '',
     };
   };
 
   const handleUpdate = async (field, value) => {
     console.log("Updating field:", field, "with value:", value);
+    
+    // Handle isPermanentSameAsCurrent checkbox
+    if (field === "isPermanentSameAsCurrent") {
+      if (value === true) {
+        // Copy current address to permanent address
+        setSectionData(prev => ({
+          ...prev,
+          [field]: value,
+          permanentAddressLine1: prev.currentAddressLine1,
+          permanentAddressLine2: prev.currentAddressLine2,
+          permanentCity: prev.currentCity,
+          permanentDistrict: prev.currentDistrict,
+          permanentState: prev.currentState,
+          permanentCountry: prev.currentCountry,
+          permanentPincode: prev.currentPincode,
+        }));
+      } else {
+        // Just update the checkbox, keep permanent address as is
+        setSectionData(prev => ({
+          ...prev,
+          [field]: value,
+        }));
+      }
+      return;
+    }
+
+    // For other fields, update normally
     setSectionData(prev => ({
       ...prev,
       [field]: value
@@ -209,7 +252,7 @@ const StudentDetail = () => {
         studentCitizenship: sectionData.studentCitizenship,
       };
 
-      const res = await axios.put(`/student/updateStudentBasicDetails/${id}`, payload);
+      await axios.put(`/student/updateStudentBasicDetails/${id}`, payload);
       setMessage({ text: 'Basic details updated successfully!', variant: 'success' });
       await fetchstudentDetail();
     } catch (error) {
@@ -242,7 +285,7 @@ const StudentDetail = () => {
         isPermanentSameAsCurrent: sectionData.isPermanentSameAsCurrent,
       };
 
-      const res = await axios.put(`/student/updateStudentAddress/${id}`, payload);
+      await axios.put(`/student/updateStudentAddress/${id}`, payload);
       setMessage({ text: 'Address details updated successfully!', variant: 'success' });
       await fetchstudentDetail();
     } catch (error) {
@@ -261,7 +304,7 @@ const StudentDetail = () => {
         branchName: sectionData.branchName,
       };
 
-      const res = await axios.put(`/student/updateStudentBankDetails/${id}`, payload);
+      await axios.put(`/student/updateStudentBankDetails/${id}`, payload);
       setMessage({ text: 'Bank details updated successfully!', variant: 'success' });
       await fetchstudentDetail();
     } catch (error) {
@@ -285,7 +328,7 @@ const StudentDetail = () => {
         disabilityPercentage: sectionData.disabilityPercentage,
       };
 
-      const res = await axios.put(`/student/updateStudentBodyDetails/${id}`, payload);
+      await axios.put(`/student/updateStudentBodyDetails/${id}`, payload);
       setMessage({ text: 'Body details updated successfully!', variant: 'success' });
       await fetchstudentDetail();
     } catch (error) {
@@ -303,7 +346,7 @@ const StudentDetail = () => {
         emergencyAddress: sectionData.emergencyAddress,
       };
 
-      const res = await axios.put(`/student/updateStudentEmergencyContact/${id}`, payload);
+      await axios.put(`/student/updateStudentEmergencyContact/${id}`, payload);
       setMessage({ text: 'Emergency contact updated successfully!', variant: 'success' });
       await fetchstudentDetail();
     } catch (error) {
@@ -332,7 +375,7 @@ const StudentDetail = () => {
         familyType: sectionData.familyType,
       };
 
-      const res = await axios.put(`/student/updateStudentParentalInfo/${id}`, payload);
+      await axios.put(`/student/updateStudentParentalInfo/${id}`, payload);
       setMessage({ text: 'Parental information updated successfully!', variant: 'success' });
       await fetchstudentDetail();
     } catch (error) {
@@ -360,7 +403,6 @@ const StudentDetail = () => {
       setMessage({ text: error.response?.data?.message || 'Error updating career preferences', variant: 'danger' });
     }
   };
-
 
   const saveEducationDetails = async () => {
     try {
@@ -441,7 +483,30 @@ const StudentDetail = () => {
     }
   };
 
-  // ...existing code...
+  const saveWorkExperience = async () => {
+    try {
+      const payload = {
+        experiences: [
+          {
+            companyName: sectionData.companyName,
+            jobTitle: sectionData.jobTitle,
+            jobType: sectionData.jobType,
+            experienceDurationMonths: parseInt(sectionData.experienceDurationMonths) || 0,
+            startDate: sectionData.experienceStartDate,
+            endDate: sectionData.experienceEndDate,
+            responsibilities: sectionData.responsibilities,
+          }
+        ]
+      };
+
+      await axios.put(`/student/updateStudentWorkExperience/${id}`, payload);
+      setMessage({ text: 'Work experience updated successfully!', variant: 'success' });
+      await fetchstudentDetail();
+    } catch (error) {
+      console.error("Error updating work experience:", error);
+      setMessage({ text: error.response?.data?.message || 'Error updating work experience', variant: 'danger' });
+    }
+  };
 
   const sections = [
     {
@@ -495,9 +560,10 @@ const StudentDetail = () => {
       saveButton: saveBasicDetails,
     },
     {
-      title: "Current Address",
+      title: "Address",
       titleColor: "success",
       fields: [
+        { label: "Current Address", type: "divider", cols: 12 },
         { label: "Address Line 1", name: "currentAddressLine1", editable: true, cols: 6 },
         { label: "Address Line 2", name: "currentAddressLine2", editable: true, cols: 6 },
         { label: "City", name: "currentCity", editable: true, cols: 4 },
@@ -505,15 +571,9 @@ const StudentDetail = () => {
         { label: "State", name: "currentState", editable: true, cols: 4 },
         { label: "Country", name: "currentCountry", editable: true, cols: 4 },
         { label: "Pincode", name: "currentPincode", editable: true, cols: 4 },
-      ],
-      saveButton: null,
-    },
-    {
-      title: "Permanent Address",
-      titleColor: "success",
-      show: !sectionData.isPermanentSameAsCurrent,
-      fields: [
-        { label: "Same as Current", name: "isPermanentSameAsCurrent", type: "boolean", editable: false, cols: 12 },
+
+        { label: "Permanent Address", type: "divider", cols: 12 },
+        { label: "Same as Current", name: "isPermanentSameAsCurrent", type: "checkbox", editable: true, cols: 12 },
         { label: "Address Line 1", name: "permanentAddressLine1", editable: true, cols: 6 },
         { label: "Address Line 2", name: "permanentAddressLine2", editable: true, cols: 6 },
         { label: "City", name: "permanentCity", editable: true, cols: 4 },
@@ -547,7 +607,7 @@ const StudentDetail = () => {
         { label: "Hair Color", name: "hairColor", editable: true, cols: 4 },
         { label: "Identification Mark 1", name: "identificationMark1", editable: true, cols: 6 },
         { label: "Identification Mark 2", name: "identificationMark2", editable: true, cols: 6 },
-        { label: "Disability", name: "disability", type: "boolean", editable: true, cols: 4 },
+        { label: "Disability", name: "disability", type: "checkbox", editable: true, cols: 4 },
         { label: "Disability Type", name: "disabilityType", editable: true, cols: 4 },
         { label: "Disability %", name: "disabilityPercentage", type: "number", editable: true, cols: 4 },
       ],
@@ -565,33 +625,24 @@ const StudentDetail = () => {
       saveButton: saveEmergencyContact,
     },
     {
-      title: "Father's Information",
+      title: "Parental Information",
       titleColor: "info",
       fields: [
+        { label: "Father's Information", type: "divider", cols: 12 },
         { label: "Father's Name", name: "fatherName", editable: true, cols: 4 },
         { label: "Contact Number", name: "fatherContactNumber", type: "tel", editable: true, cols: 4 },
         { label: "Occupation", name: "fatherOccupation", editable: true, cols: 4 },
         { label: "Email", name: "fatherEmail", type: "email", editable: true, cols: 4 },
         { label: "Annual Income", name: "fatherAnnualIncome", type: "number", editable: true, cols: 4 },
-      ],
-      saveButton: null,
-    },
-    {
-      title: "Mother's Information",
-      titleColor: "info",
-      fields: [
+
+        { label: "Mother's Information", type: "divider", cols: 12 },
         { label: "Mother's Name", name: "motherName", editable: true, cols: 4 },
         { label: "Contact Number", name: "motherContactNumber", type: "tel", editable: true, cols: 4 },
         { label: "Occupation", name: "motherOccupation", editable: true, cols: 4 },
         { label: "Email", name: "motherEmail", type: "email", editable: true, cols: 4 },
         { label: "Annual Income", name: "motherAnnualIncome", type: "number", editable: true, cols: 4 },
-      ],
-      saveButton: null,
-    },
-    {
-      title: "Guardian Information",
-      titleColor: "info",
-      fields: [
+
+        { label: "Guardian's Information", type: "divider", cols: 12 },
         { label: "Guardian Name", name: "guardianName", editable: true, cols: 4 },
         { label: "Relation", name: "guardianRelation", editable: true, cols: 4 },
         { label: "Contact Number", name: "guardianContactNumber", type: "tel", editable: true, cols: 4 },
@@ -615,7 +666,7 @@ const StudentDetail = () => {
         { label: "Expected Salary Min", name: "expectedSalaryMin", type: "number", editable: true, cols: 4 },
         { label: "Expected Salary Max", name: "expectedSalaryMax", type: "number", editable: true, cols: 4 },
         { label: "Employment Type (comma separated)", name: "employmentType", type: "textarea", rows: 2, editable: true, cols: 6 },
-        { label: "Willing to Relocate", name: "willingToRelocate", type: "boolean", editable: true, cols: 4 },
+        { label: "Willing to Relocate", name: "willingToRelocate", type: "checkbox", editable: true, cols: 4 },
       ],
       saveButton: saveCareerPreferences,
     },
@@ -641,14 +692,12 @@ const StudentDetail = () => {
             { value: "Other", label: "Other" },
           ], editable: true, cols: 12
         },
-        // 10th Standard
         { label: "10th Standard", type: "divider", cols: 12 },
         { label: "School Name", name: "tenthSchoolName", editable: true, cols: 6 },
         { label: "Board", name: "tenthBoard", editable: true, cols: 6 },
         { label: "Passing Year", name: "tenthPassingYear", type: "number", editable: true, cols: 6 },
         { label: "Percentage", name: "tenthPercentage", type: "number", editable: true, cols: 6 },
 
-        // 12th Standard
         { label: "12th Standard", type: "divider", cols: 12 },
         { label: "School/College Name", name: "twelfthSchoolCollegeName", editable: true, cols: 6 },
         { label: "Board", name: "twelfthBoard", editable: true, cols: 6 },
@@ -656,7 +705,6 @@ const StudentDetail = () => {
         { label: "Passing Year", name: "twelfthPassingYear", type: "number", editable: true, cols: 4 },
         { label: "Percentage", name: "twelfthPercentage", type: "number", editable: true, cols: 4 },
 
-        // Graduation
         { label: "Graduation", type: "divider", cols: 12 },
         { label: "College Name", name: "graduationCollegeName", editable: true, cols: 6 },
         { label: "Course Name", name: "graduationCourseName", editable: true, cols: 6 },
@@ -664,7 +712,6 @@ const StudentDetail = () => {
         { label: "Passing Year", name: "graduationPassingYear", type: "number", editable: true, cols: 4 },
         { label: "Percentage", name: "graduationPercentage", type: "number", editable: true, cols: 4 },
 
-        // Post Graduation
         { label: "Post Graduation", type: "divider", cols: 12 },
         { label: "College Name", name: "postGraduationCollegeName", editable: true, cols: 6 },
         { label: "Course Name", name: "postGraduationCourseName", editable: true, cols: 6 },
@@ -702,8 +749,24 @@ const StudentDetail = () => {
       titleColor: "warning",
       fields: [
         { label: "Total Experience (Months)", name: "totalExperienceMonths", type: "number", editable: true, cols: 4 },
+        { label: "Experience Details", type: "divider", cols: 12 },
+        { label: "Company Name", name: "companyName", editable: true, cols: 6 },
+        { label: "Job Title", name: "jobTitle", editable: true, cols: 6 },
+        {
+          label: "Job Type", name: "jobType", type: "select", options: [
+            { value: "Full-time", label: "Full-time" },
+            { value: "Part-time", label: "Part-time" },
+            { value: "Contract", label: "Contract" },
+            { value: "Internship", label: "Internship" },
+            { value: "Freelance", label: "Freelance" },
+          ], editable: true, cols: 4
+        },
+        { label: "Duration (Months)", name: "experienceDurationMonths", type: "number", editable: true, cols: 4 },
+        { label: "Start Date", name: "experienceStartDate", type: "date", editable: true, cols: 4 },
+        { label: "End Date", name: "experienceEndDate", type: "date", editable: true, cols: 4 },
+        { label: "Responsibilities", name: "responsibilities", type: "textarea", rows: 3, editable: true, cols: 12 },
       ],
-      saveButton: null,
+      saveButton: saveWorkExperience,
     },
     {
       title: "Identity Documents",
@@ -718,8 +781,6 @@ const StudentDetail = () => {
       saveButton: null,
     },
   ];
-
-  // ...existing code...
 
   if (loading) {
     return (
