@@ -11,6 +11,7 @@ const StudentDetail = () => {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState({ text: '', variant: '' });
   const [sectionData, setSectionData] = useState({});
+  const [uploadFiles, setUploadFiles] = useState({}); // For file uploads
 
   const fetchstudentDetail = async () => {
     try {
@@ -37,8 +38,26 @@ const StudentDetail = () => {
   const flattenData = (data) => {
     if (!data) return {};
 
+    // Handle array data by getting first element
+    const addressData = Array.isArray(data.studentAddressData) ? data.studentAddressData[0] : data.studentAddressData;
+    const bankData = Array.isArray(data.studentBankData) ? data.studentBankData[0] : data.studentBankData;
+    const bodyData = Array.isArray(data.studentBodyData) ? data.studentBodyData[0] : data.studentBodyData;
+    const emergencyData = Array.isArray(data.studentEmergencyContactData) ? data.studentEmergencyContactData[0] : data.studentEmergencyContactData;
+    const parentalData = Array.isArray(data.studentParentalInfoData) ? data.studentParentalInfoData[0] : data.studentParentalInfoData;
+    const preferencesData = Array.isArray(data.studentPreferencesData) ? data.studentPreferencesData[0] : data.studentPreferencesData;
+    const educationData = Array.isArray(data.studentEducationData) ? data.studentEducationData[0] : data.studentEducationData;
+    const skillsData = Array.isArray(data.studentSkillsData) ? data.studentSkillsData[0] : data.studentSkillsData;
+    const socialLinksData = Array.isArray(data.studentSocialLinksData) ? data.studentSocialLinksData[0] : data.studentSocialLinksData;
+    const workExperienceData = Array.isArray(data.studentWorkExperienceData) ? data.studentWorkExperienceData[0] : data.studentWorkExperienceData;
+    const documentData = Array.isArray(data.studentDocumentUploadData) ? data.studentDocumentUploadData[0] : data.studentDocumentUploadData;
+    const certificatesData = Array.isArray(data.studentCertificatesData) ? data.studentCertificatesData[0] : data.studentCertificatesData;
+    const basicData = Array.isArray(data.studentBasicData) ? data.studentBasicData[0] : data.studentBasicData;
+
     // Get the first experience if exists (for single experience display)
-    const firstExperience = data.studentWorkExperienceData?.experiences?.[0] || {};
+    const firstExperience = workExperienceData?.experiences?.[0] || {};
+    
+    // Get the first certificate if exists
+    const firstCertificate = certificatesData?.certificates?.[0] || {};
 
     return {
       // Primary Data
@@ -56,145 +75,159 @@ const StudentDetail = () => {
       studentUpdatedAt: data.studentPrimaryData?.studentUpdatedAt,
 
       // Basic Data
-      studentDOB: data.studentBasicData?.studentDOB,
-      studentGender: data.studentBasicData?.studentGender,
-      studentAlternateMobileNo: data.studentBasicData?.studentAlternateMobileNo,
-      studentMaritalStatus: data.studentBasicData?.studentMaritalStatus,
-      studentMotherTongue: data.studentBasicData?.studentMotherTongue,
-      studentNationality: data.studentBasicData?.studentNationality,
-      studentCitizenship: data.studentBasicData?.studentCitizenship,
+      studentDOB: basicData?.studentDOB,
+      studentGender: basicData?.studentGender,
+      studentAlternateMobileNo: basicData?.studentAlternateMobileNo,
+      studentMaritalStatus: basicData?.studentMaritalStatus,
+      studentMotherTongue: basicData?.studentMotherTongue,
+      studentNationality: basicData?.studentNationality,
+      studentCitizenship: basicData?.studentCitizenship,
 
       // Current Address
-      currentAddressLine1: data.studentAddressData?.current?.addressLine1,
-      currentAddressLine2: data.studentAddressData?.current?.addressLine2,
-      currentCity: data.studentAddressData?.current?.city,
-      currentState: data.studentAddressData?.current?.state,
-      currentDistrict: data.studentAddressData?.current?.district,
-      currentCountry: data.studentAddressData?.current?.country,
-      currentPincode: data.studentAddressData?.current?.pincode,
+      currentAddressLine1: addressData?.current?.addressLine1,
+      currentAddressLine2: addressData?.current?.addressLine2,
+      currentCity: addressData?.current?.city,
+      currentState: addressData?.current?.state,
+      currentDistrict: addressData?.current?.district,
+      currentCountry: addressData?.current?.country,
+      currentPincode: addressData?.current?.pincode,
 
       // Permanent Address
-      permanentAddressLine1: data.studentAddressData?.permanent?.addressLine1,
-      permanentAddressLine2: data.studentAddressData?.permanent?.addressLine2,
-      permanentCity: data.studentAddressData?.permanent?.city,
-      permanentState: data.studentAddressData?.permanent?.state,
-      permanentDistrict: data.studentAddressData?.permanent?.district,
-      permanentCountry: data.studentAddressData?.permanent?.country,
-      permanentPincode: data.studentAddressData?.permanent?.pincode,
-      isPermanentSameAsCurrent: data.studentAddressData?.isPermanentSameAsCurrent,
+      permanentAddressLine1: addressData?.permanent?.addressLine1,
+      permanentAddressLine2: addressData?.permanent?.addressLine2,
+      permanentCity: addressData?.permanent?.city,
+      permanentState: addressData?.permanent?.state,
+      permanentDistrict: addressData?.permanent?.district,
+      permanentCountry: addressData?.permanent?.country,
+      permanentPincode: addressData?.permanent?.pincode,
+      isPermanentSameAsCurrent: addressData?.isPermanentSameAsCurrent,
 
       // Bank Data
-      bankHolderName: data.studentBankData?.bankHolderName,
-      bankName: data.studentBankData?.bankName,
-      accountNumber: data.studentBankData?.accountNumber,
-      ifscCode: data.studentBankData?.ifscCode,
-      branchName: data.studentBankData?.branchName,
-      passbookUrl: data.studentBankData?.passbookUrl,
+      bankHolderName: bankData?.bankHolderName,
+      bankName: bankData?.bankName,
+      accountNumber: bankData?.accountNumber,
+      ifscCode: bankData?.ifscCode,
+      branchName: bankData?.branchName,
+      passbookUrl: bankData?.passbookUrl,
 
       // Body Details
-      heightCm: data.studentBodyData?.heightCm,
-      weightKg: data.studentBodyData?.weightKg,
-      bloodGroup: data.studentBodyData?.bloodGroup,
-      eyeColor: data.studentBodyData?.eyeColor,
-      hairColor: data.studentBodyData?.hairColor,
-      identificationMark1: data.studentBodyData?.identificationMark1,
-      identificationMark2: data.studentBodyData?.identificationMark2,
-      disability: data.studentBodyData?.disability,
-      disabilityType: data.studentBodyData?.disabilityType,
-      disabilityPercentage: data.studentBodyData?.disabilityPercentage,
+      heightCm: bodyData?.heightCm,
+      weightKg: bodyData?.weightKg,
+      bloodGroup: bodyData?.bloodGroup,
+      eyeColor: bodyData?.eyeColor,
+      hairColor: bodyData?.hairColor,
+      identificationMark1: bodyData?.identificationMark1,
+      identificationMark2: bodyData?.identificationMark2,
+      disability: bodyData?.disability,
+      disabilityType: bodyData?.disabilityType,
+      disabilityPercentage: bodyData?.disabilityPercentage,
 
       // Emergency Contact
-      emergencyContactName: data.studentEmergencyContactData?.emergencyContactName,
-      emergencyRelation: data.studentEmergencyContactData?.emergencyRelation,
-      emergencyPhoneNumber: data.studentEmergencyContactData?.emergencyPhoneNumber,
-      emergencyAddress: data.studentEmergencyContactData?.emergencyAddress,
+      emergencyContactName: emergencyData?.emergencyContactName,
+      emergencyRelation: emergencyData?.emergencyRelation,
+      emergencyPhoneNumber: emergencyData?.emergencyPhoneNumber,
+      emergencyAddress: emergencyData?.emergencyAddress,
 
       // Parental Info
-      fatherName: data.studentParentalInfoData?.fatherName,
-      fatherContactNumber: data.studentParentalInfoData?.fatherContactNumber,
-      fatherOccupation: data.studentParentalInfoData?.fatherOccupation,
-      fatherEmail: data.studentParentalInfoData?.fatherEmail,
-      fatherAnnualIncome: data.studentParentalInfoData?.fatherAnnualIncome,
-      motherName: data.studentParentalInfoData?.motherName,
-      motherContactNumber: data.studentParentalInfoData?.motherContactNumber,
-      motherOccupation: data.studentParentalInfoData?.motherOccupation,
-      motherEmail: data.studentParentalInfoData?.motherEmail,
-      motherAnnualIncome: data.studentParentalInfoData?.motherAnnualIncome,
-      guardianName: data.studentParentalInfoData?.guardianName,
-      guardianRelation: data.studentParentalInfoData?.guardianRelation,
-      guardianContactNumber: data.studentParentalInfoData?.guardianContactNumber,
-      numberOfFamilyMembers: data.studentParentalInfoData?.numberOfFamilyMembers,
-      familyType: data.studentParentalInfoData?.familyType,
+      fatherName: parentalData?.fatherName,
+      fatherContactNumber: parentalData?.fatherContactNumber,
+      fatherOccupation: parentalData?.fatherOccupation,
+      fatherEmail: parentalData?.fatherEmail,
+      fatherAnnualIncome: parentalData?.fatherAnnualIncome,
+      motherName: parentalData?.motherName,
+      motherContactNumber: parentalData?.motherContactNumber,
+      motherOccupation: parentalData?.motherOccupation,
+      motherEmail: parentalData?.motherEmail,
+      motherAnnualIncome: parentalData?.motherAnnualIncome,
+      guardianName: parentalData?.guardianName,
+      guardianRelation: parentalData?.guardianRelation,
+      guardianContactNumber: parentalData?.guardianContactNumber,
+      numberOfFamilyMembers: parentalData?.numberOfFamilyMembers,
+      familyType: parentalData?.familyType,
 
-      // Documents
-      aadharNumber: data.studentDocumentUploadData?.identityDocuments?.aadharNumber,
-      panNumber: data.studentDocumentUploadData?.identityDocuments?.panNumber,
-      voterId: data.studentDocumentUploadData?.identityDocuments?.voterId,
-      passportNumber: data.studentDocumentUploadData?.identityDocuments?.passportNumber,
-      drivingLicenseNo: data.studentDocumentUploadData?.identityDocuments?.drivingLicenseNo,
+      // Documents - Identity Documents (already in existing section)
+      aadharNumber: documentData?.identityDocuments?.aadharNumber,
+      panNumber: documentData?.identityDocuments?.panNumber,
+      voterId: documentData?.identityDocuments?.voterId,
+      passportNumber: documentData?.identityDocuments?.passportNumber,
+      drivingLicenseNo: documentData?.identityDocuments?.drivingLicenseNo,
+      
+      // Documents - Identity Document Files
+      aadharFrontImg: documentData?.identityDocuments?.aadharFrontImg,
+      aadharBackImg: documentData?.identityDocuments?.aadharBackImg,
+      panImg: documentData?.identityDocuments?.panImg,
+      drivingLicenseFrontImg: documentData?.identityDocuments?.drivingLicenseFrontImg,
+      categoryCertificateImg: documentData?.identityDocuments?.categoryCertificateImg,
+      domicileCertificateImg: documentData?.identityDocuments?.domicileCertificateImg,
+      incomeCertificateImg: documentData?.identityDocuments?.incomeCertificateImg,
+      birthCertificateImg: documentData?.identityDocuments?.birthCertificateImg,
+
+      // Other Documents
+      otherDocumentName: documentData?.otherDocuments?.[0]?.documentName || '',
+      otherDocumentFile: documentData?.otherDocuments?.[0]?.documentFile || '',
 
       // Career Preferences
-      preferredJobCategory: Array.isArray(data.studentPreferencesData?.preferredJobCategory)
-        ? data.studentPreferencesData.preferredJobCategory.join(', ')
-        : (data.studentPreferencesData?.preferredJobCategory || ''),
-      preferredJobLocation: Array.isArray(data.studentPreferencesData?.preferredJobLocation)
-        ? data.studentPreferencesData.preferredJobLocation.join(', ')
-        : (data.studentPreferencesData?.preferredJobLocation || ''),
-      expectedSalaryMin: data.studentPreferencesData?.expectedSalaryMin,
-      expectedSalaryMax: data.studentPreferencesData?.expectedSalaryMax,
-      employmentType: Array.isArray(data.studentPreferencesData?.employmentType)
-        ? data.studentPreferencesData.employmentType.join(', ')
-        : (data.studentPreferencesData?.employmentType || ''),
-      willingToRelocate: data.studentPreferencesData?.willingToRelocate,
+      preferredJobCategory: Array.isArray(preferencesData?.preferredJobCategory)
+        ? preferencesData.preferredJobCategory.join(', ')
+        : (preferencesData?.preferredJobCategory || ''),
+      preferredJobLocation: Array.isArray(preferencesData?.preferredJobLocation)
+        ? preferencesData.preferredJobLocation.join(', ')
+        : (preferencesData?.preferredJobLocation || ''),
+      expectedSalaryMin: preferencesData?.expectedSalaryMin,
+      expectedSalaryMax: preferencesData?.expectedSalaryMax,
+      employmentType: Array.isArray(preferencesData?.employmentType)
+        ? preferencesData.employmentType.join(', ')
+        : (preferencesData?.employmentType || ''),
+      willingToRelocate: preferencesData?.willingToRelocate,
 
       // Education Details
-      highestQualification: data.studentEducationData?.highestQualification,
-      tenthSchoolName: data.studentEducationData?.tenth?.schoolName,
-      tenthBoard: data.studentEducationData?.tenth?.board,
-      tenthPassingYear: data.studentEducationData?.tenth?.passingYear,
-      tenthPercentage: data.studentEducationData?.tenth?.percentage,
-      twelfthSchoolCollegeName: data.studentEducationData?.twelfth?.schoolCollegeName,
-      twelfthBoard: data.studentEducationData?.twelfth?.board,
-      twelfthStream: data.studentEducationData?.twelfth?.stream,
-      twelfthPassingYear: data.studentEducationData?.twelfth?.passingYear,
-      twelfthPercentage: data.studentEducationData?.twelfth?.percentage,
-      graduationCollegeName: data.studentEducationData?.graduation?.collegeName,
-      graduationCourseName: data.studentEducationData?.graduation?.courseName,
-      graduationSpecialization: data.studentEducationData?.graduation?.specialization,
-      graduationPassingYear: data.studentEducationData?.graduation?.passingYear,
-      graduationPercentage: data.studentEducationData?.graduation?.percentage,
-      postGraduationCollegeName: data.studentEducationData?.postGraduation?.collegeName,
-      postGraduationCourseName: data.studentEducationData?.postGraduation?.courseName,
-      postGraduationSpecialization: data.studentEducationData?.postGraduation?.specialization,
-      postGraduationPassingYear: data.studentEducationData?.postGraduation?.passingYear,
-      postGraduationPercentage: data.studentEducationData?.postGraduation?.percentage,
+      highestQualification: educationData?.highestQualification,
+      tenthSchoolName: educationData?.tenth?.schoolName,
+      tenthBoard: educationData?.tenth?.board,
+      tenthPassingYear: educationData?.tenth?.passingYear,
+      tenthPercentage: educationData?.tenth?.percentage,
+      twelfthSchoolCollegeName: educationData?.twelfth?.schoolCollegeName,
+      twelfthBoard: educationData?.twelfth?.board,
+      twelfthStream: educationData?.twelfth?.stream,
+      twelfthPassingYear: educationData?.twelfth?.passingYear,
+      twelfthPercentage: educationData?.twelfth?.percentage,
+      graduationCollegeName: educationData?.graduation?.collegeName,
+      graduationCourseName: educationData?.graduation?.courseName,
+      graduationSpecialization: educationData?.graduation?.specialization,
+      graduationPassingYear: educationData?.graduation?.passingYear,
+      graduationPercentage: educationData?.graduation?.percentage,
+      postGraduationCollegeName: educationData?.postGraduation?.collegeName,
+      postGraduationCourseName: educationData?.postGraduation?.courseName,
+      postGraduationSpecialization: educationData?.postGraduation?.specialization,
+      postGraduationPassingYear: educationData?.postGraduation?.passingYear,
+      postGraduationPercentage: educationData?.postGraduation?.percentage,
 
       // Skills
-      hobbies: Array.isArray(data.studentSkillsData?.hobbies)
-        ? data.studentSkillsData.hobbies.join(', ')
-        : (data.studentSkillsData?.hobbies || ''),
+      hobbies: Array.isArray(skillsData?.hobbies)
+        ? skillsData.hobbies.join(', ')
+        : (skillsData?.hobbies || ''),
 
-      technicalSkills: Array.isArray(data.studentSkillsData?.technicalSkills)
-        ? data.studentSkillsData.technicalSkills.join(', ')
-        : (data.studentSkillsData?.technicalSkills || ''),
+      technicalSkills: Array.isArray(skillsData?.technicalSkills)
+        ? skillsData.technicalSkills.join(', ')
+        : (skillsData?.technicalSkills || ''),
 
-      softSkills: Array.isArray(data.studentSkillsData?.softSkills)
-        ? data.studentSkillsData.softSkills.join(', ')
-        : (data.studentSkillsData?.softSkills || ''),
+      softSkills: Array.isArray(skillsData?.softSkills)
+        ? skillsData.softSkills.join(', ')
+        : (skillsData?.softSkills || ''),
 
-      computerKnowledge: Array.isArray(data.studentSkillsData?.computerKnowledge)
-        ? data.studentSkillsData.computerKnowledge.join(', ')
-        : (data.studentSkillsData?.computerKnowledge || ''),
+      computerKnowledge: Array.isArray(skillsData?.computerKnowledge)
+        ? skillsData.computerKnowledge.join(', ')
+        : (skillsData?.computerKnowledge || ''),
 
       // Social Links
-      linkedInUrl: data.studentSocialLinksData?.linkedInUrl,
-      githubUrl: data.studentSocialLinksData?.githubUrl,
-      portfolioUrl: data.studentSocialLinksData?.portfolioUrl,
-      facebookUrl: data.studentSocialLinksData?.facebookUrl,
-      instagramUrl: data.studentSocialLinksData?.instagramUrl,
+      linkedInUrl: socialLinksData?.linkedInUrl,
+      githubUrl: socialLinksData?.githubUrl,
+      portfolioUrl: socialLinksData?.portfolioUrl,
+      facebookUrl: socialLinksData?.facebookUrl,
+      instagramUrl: socialLinksData?.instagramUrl,
 
       // Work Experience
-      totalExperienceMonths: data.studentWorkExperienceData?.totalExperienceMonths || 0,
+      totalExperienceMonths: workExperienceData?.totalExperienceMonths || 0,
       companyName: firstExperience.companyName || '',
       jobTitle: firstExperience.jobTitle || '',
       jobType: firstExperience.jobType || '',
@@ -202,12 +235,35 @@ const StudentDetail = () => {
       experienceStartDate: firstExperience.startDate || '',
       experienceEndDate: firstExperience.endDate || '',
       responsibilities: firstExperience.responsibilities || '',
+
+      // Certificates
+      certificationName: firstCertificate.certificationName || '',
+      issuingOrganization: firstCertificate.issuingOrganization || '',
+      issueDate: firstCertificate.issueDate || '',
+      expirationDate: firstCertificate.expirationDate || '',
+      credentialId: firstCertificate.credentialId || '',
+      certificateUrl: firstCertificate.certificateUrl || '',
+      certificateFile: firstCertificate.certificateFile || '',
     };
   };
 
   const handleUpdate = async (field, value) => {
     console.log("Updating field:", field, "with value:", value);
     
+    // Handle file uploads
+    if (value instanceof File) {
+      setUploadFiles(prev => ({
+        ...prev,
+        [field]: value
+      }));
+      // Update field with file name for display
+      setSectionData(prev => ({
+        ...prev,
+        [field]: value.name
+      }));
+      return;
+    }
+
     // Handle isPermanentSameAsCurrent checkbox
     if (field === "isPermanentSameAsCurrent") {
       if (value === true) {
@@ -389,17 +445,20 @@ const StudentDetail = () => {
       const payload = {
         preferredJobCategory: sectionData.preferredJobCategory?.split(',').map(s => s.trim()).filter(Boolean) || [],
         preferredJobLocation: sectionData.preferredJobLocation?.split(',').map(s => s.trim()).filter(Boolean) || [],
-        expectedSalaryMin: sectionData.expectedSalaryMin,
-        expectedSalaryMax: sectionData.expectedSalaryMax,
+        expectedSalaryMin: Number(sectionData.expectedSalaryMin) || 0,
+        expectedSalaryMax: Number(sectionData.expectedSalaryMax) || 0,
         employmentType: sectionData.employmentType?.split(',').map(s => s.trim()).filter(Boolean) || [],
-        willingToRelocate: sectionData.willingToRelocate,
+        willingToRelocate: Boolean(sectionData.willingToRelocate),
       };
+
+      console.log('Career Preferences Payload:', payload);
 
       await axios.put(`/student/updateStudentCareerPreferences/${id}`, payload);
       setMessage({ text: 'Career preferences updated successfully!', variant: 'success' });
       await fetchstudentDetail();
     } catch (error) {
       console.error("Error updating career preferences:", error);
+      console.error("Error response:", error.response?.data);
       setMessage({ text: error.response?.data?.message || 'Error updating career preferences', variant: 'danger' });
     }
   };
@@ -506,6 +565,96 @@ const StudentDetail = () => {
     } catch (error) {
       console.error("Error updating work experience:", error);
       setMessage({ text: error.response?.data?.message || 'Error updating work experience', variant: 'danger' });
+    }
+  };
+
+  const saveCertificates = async () => {
+    try {
+      const formData = new FormData();
+
+      // Add certificate data
+      const certificates = [{
+        certificationName: sectionData.certificationName,
+        issuingOrganization: sectionData.issuingOrganization,
+        issueDate: sectionData.issueDate,
+        expirationDate: sectionData.expirationDate || null,
+        credentialId: sectionData.credentialId || null,
+        certificateUrl: sectionData.certificateUrl || null,
+      }];
+
+      formData.append('certificates', JSON.stringify(certificates));
+
+      // Add certificate file if uploaded
+      if (uploadFiles.certificateFile) {
+        formData.append('certificateFile', uploadFiles.certificateFile);
+      }
+
+      await axios.put(`/student/updateStudentCertificates/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      setMessage({ text: 'Certificates updated successfully!', variant: 'success' });
+      setUploadFiles(prev => ({ ...prev, certificateFile: null }));
+      await fetchstudentDetail();
+    } catch (error) {
+      console.error("Error updating certificates:", error);
+      setMessage({ text: error.response?.data?.message || 'Error updating certificates', variant: 'danger' });
+    }
+  };
+
+  const saveDocumentUploads = async () => {
+    try {
+      const formData = new FormData();
+
+      // Add identity document numbers
+      const identityDocuments = {
+        aadharNumber: sectionData.aadharNumber || null,
+        panNumber: sectionData.panNumber || null,
+        voterId: sectionData.voterId || null,
+        passportNumber: sectionData.passportNumber || null,
+        drivingLicenseNo: sectionData.drivingLicenseNo || null,
+      };
+
+      formData.append('identityDocuments', JSON.stringify(identityDocuments));
+
+      // Add other document if provided
+      if (sectionData.otherDocumentName) {
+        const otherDocuments = [{
+          documentName: sectionData.otherDocumentName,
+        }];
+        formData.append('otherDocuments', JSON.stringify(otherDocuments));
+      }
+
+      // Add all uploaded files
+      const fileFields = [
+        'aadharFrontImg',
+        'aadharBackImg',
+        'panImg',
+        'drivingLicenseFrontImg',
+        'categoryCertificateImg',
+        'domicileCertificateImg',
+        'incomeCertificateImg',
+        'birthCertificateImg',
+        'otherDocumentFile'
+      ];
+
+      fileFields.forEach(field => {
+        if (uploadFiles[field]) {
+          formData.append(field, uploadFiles[field]);
+        }
+      });
+
+      await axios.put(`/student/updateStudentDocumentUpload/${id}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      setMessage({ text: 'Documents updated successfully!', variant: 'success' });
+      // Clear uploaded files
+      setUploadFiles({});
+      await fetchstudentDetail();
+    } catch (error) {
+      console.error("Error updating documents:", error);
+      setMessage({ text: error.response?.data?.message || 'Error updating documents', variant: 'danger' });
     }
   };
 
@@ -768,6 +917,42 @@ const StudentDetail = () => {
         { label: "Responsibilities", name: "responsibilities", type: "textarea", rows: 3, editable: true, cols: 12 },
       ],
       saveButton: saveWorkExperience,
+    },
+    {
+      title: "Certifications",
+      titleColor: "success",
+      fields: [
+        { label: "Certification Name", name: "certificationName", editable: true, cols: 6 },
+        { label: "Issuing Organization", name: "issuingOrganization", editable: true, cols: 6 },
+        { label: "Issue Date", name: "issueDate", type: "date", editable: true, cols: 4 },
+        { label: "Expiration Date", name: "expirationDate", type: "date", editable: true, cols: 4 },
+        { label: "Credential ID", name: "credentialId", editable: true, cols: 4 },
+        { label: "Certificate URL", name: "certificateUrl", type: "url", editable: true, cols: 6 },
+        { label: "Certificate File", name: "certificateFile", type: "file", accept: ".pdf,.jpg,.jpeg,.png", editable: true, cols: 6 },
+      ],
+      saveButton: saveCertificates,
+    },
+    {
+      title: "Document Uploads",
+      titleColor: "info",
+      fields: [
+        { label: "Identity Documents", type: "divider", cols: 12 },
+        { label: "Aadhar Front Image", name: "aadharFrontImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+        { label: "Aadhar Back Image", name: "aadharBackImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+        { label: "PAN Image", name: "panImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+        { label: "Driving License Front", name: "drivingLicenseFrontImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+        
+        { label: "Other Certificates", type: "divider", cols: 12 },
+        { label: "Category Certificate", name: "categoryCertificateImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+        { label: "Domicile Certificate", name: "domicileCertificateImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+        { label: "Income Certificate", name: "incomeCertificateImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+        { label: "Birth Certificate", name: "birthCertificateImg", type: "file", accept: "image/*", editable: true, cols: 6 },
+
+        { label: "Additional Documents", type: "divider", cols: 12 },
+        { label: "Document Name", name: "otherDocumentName", editable: true, cols: 6 },
+        { label: "Document File", name: "otherDocumentFile", type: "file", accept: ".pdf,.jpg,.jpeg,.png", editable: true, cols: 6 },
+      ],
+      saveButton: saveDocumentUploads,
     },
     {
       title: "Identity Documents",
