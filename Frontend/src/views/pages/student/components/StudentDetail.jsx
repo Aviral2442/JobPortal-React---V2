@@ -1,8 +1,9 @@
 import axios from '@/api/axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Spinner, Alert, Button } from 'react-bootstrap';
+import { Container, Spinner, Alert, Button, Card, CardBody, ProgressBar, Row, Col } from 'react-bootstrap';
 import DetailPage from '@/components/DetailPage';
+import { TbUser, TbMapPin, TbBuildingBank, TbHeart, TbUsers, TbSchool, TbBriefcase, TbCertificate, TbFileText, TbLink, TbSettings } from 'react-icons/tb';
 
 const StudentDetail = () => {
   const { id } = useParams();
@@ -14,6 +15,10 @@ const StudentDetail = () => {
   const [uploadFiles, setUploadFiles] = useState({}); // For file uploads
   const [certificates, setCertificates] = useState([]); // Store all certificates
   const [editingCertificateIndex, setEditingCertificateIndex] = useState(null); // Track which certificate is being edited
+  const [profileCompletion, setProfileCompletion] = useState({
+    data: {},
+    percentage: 0
+  });
 
   const fetchstudentDetail = async () => {
     try {
@@ -25,6 +30,19 @@ const StudentDetail = () => {
       // Initialize section data
       const initialData = flattenData(res.data.jsonData);
       setSectionData(initialData);
+
+      // Set profile completion data
+      if (res.data.jsonData?.studentPrimaryData?.profileCompletion) {
+        const completionData = res.data.jsonData.studentPrimaryData.profileCompletion;
+        const totalSections = Object.keys(completionData).length;
+        const completedSections = Object.values(completionData).filter(value => value === 1).length;
+        const percentage = totalSections > 0 ? Math.round((completedSections / totalSections) * 100) : 0;
+        
+        setProfileCompletion({
+          data: completionData,
+          percentage: percentage
+        });
+      }
     } catch (error) {
       console.error("Error fetching student detail:", error);
       setError("Failed to fetch student details");
@@ -286,10 +304,17 @@ const StudentDetail = () => {
           permanentPincode: prev.currentPincode,
         }));
       } else {
-        // Just update the checkbox, keep permanent address as is
+        // Clear all permanent address fields when unchecked
         setSectionData(prev => ({
           ...prev,
           [field]: value,
+          permanentAddressLine1: "",
+          permanentAddressLine2: "",
+          permanentCity: "",
+          permanentDistrict: "",
+          permanentState: "",
+          permanentCountry: "",
+          permanentPincode: "",
         }));
       }
       return;
@@ -722,6 +747,31 @@ const StudentDetail = () => {
     }
   };
 
+  // Profile completion section items with icons
+  const completionSections = [
+    { key: 'studentBasicData', label: 'Basic Info', icon: TbUser },
+    { key: 'studentAddressData', label: 'Address', icon: TbMapPin },
+    { key: 'studentBankData', label: 'Bank', icon: TbBuildingBank },
+    { key: 'studentBodyData', label: 'Body Details', icon: TbHeart },
+    { key: 'studentEmergencyData', label: 'Emergency', icon: TbUsers },
+    { key: 'studentParentData', label: 'Parents', icon: TbUsers },
+    { key: 'studentEducationData', label: 'Education', icon: TbSchool },
+    { key: 'studentSkillsData', label: 'Skills', icon: TbSettings },
+    { key: 'studentWorkExperienceData', label: 'Experience', icon: TbBriefcase },
+    { key: 'studentCertificationsData', label: 'Certificates', icon: TbCertificate },
+    { key: 'studentDocumentsData', label: 'Documents', icon: TbFileText },
+    { key: 'studentPreferencesData', label: 'Preferences', icon: TbSettings },
+    { key: 'studentSocialData', label: 'Social Links', icon: TbLink },
+    { key: 'studentResume', label: 'Resume', icon: TbFileText },
+  ];
+
+  const getProgressVariant = (percentage) => {
+    if (percentage < 30) return 'danger';
+    if (percentage < 60) return 'warning';
+    if (percentage < 90) return 'info';
+    return 'success';
+  };
+
   const sections = [
     {
       title: "Primary Information",
@@ -749,27 +799,27 @@ const StudentDetail = () => {
       title: "Basic Details",
       titleColor: "info",
       fields: [
-        { label: "Date of Birth", name: "studentDOB", type: "date", editable: true, cols: 4 },
+        { label: "Date of Birth", name: "studentDOB", type: "date", editable: true, cols: 3 },
         {
           label: "Gender", name: "studentGender", type: "select", options: [
             { value: "male", label: "Male" },
             { value: "female", label: "Female" },
             { value: "other", label: "Other" },
             { value: "prefer_not_to_say", label: "Prefer Not to Say" },
-          ], editable: true, cols: 4
+          ], editable: true, cols: 3
         },
-        { label: "Alternate Mobile", name: "studentAlternateMobileNo", type: "tel", editable: true, cols: 4 },
+        { label: "Alternate Mobile", name: "studentAlternateMobileNo", type: "tel", editable: true, cols: 3 },
         {
           label: "Marital Status", name: "studentMaritalStatus", type: "select", options: [
             { value: "single", label: "Single" },
             { value: "married", label: "Married" },
             { value: "other", label: "Other" },
             { value: "prefer_not_to_say", label: "Prefer Not to Say" },
-          ], editable: true, cols: 4
+          ], editable: true, cols: 3
         },
-        { label: "Mother Tongue", name: "studentMotherTongue", editable: true, cols: 4 },
-        { label: "Nationality", name: "studentNationality", editable: true, cols: 4 },
-        { label: "Citizenship", name: "studentCitizenship", editable: true, cols: 4 },
+        { label: "Mother Tongue", name: "studentMotherTongue", editable: true, cols: 3 },
+        { label: "Nationality", name: "studentNationality", editable: true, cols: 3 },
+        { label: "Citizenship", name: "studentCitizenship", editable: true, cols: 3 },
       ],
       saveButton: saveBasicDetails,
     },
@@ -780,21 +830,21 @@ const StudentDetail = () => {
         { label: "Current Address", type: "divider", cols: 12 },
         { label: "Address Line 1", name: "currentAddressLine1", editable: true, cols: 6 },
         { label: "Address Line 2", name: "currentAddressLine2", editable: true, cols: 6 },
-        { label: "City", name: "currentCity", editable: true, cols: 4 },
-        { label: "District", name: "currentDistrict", editable: true, cols: 4 },
-        { label: "State", name: "currentState", editable: true, cols: 4 },
-        { label: "Country", name: "currentCountry", editable: true, cols: 4 },
-        { label: "Pincode", name: "currentPincode", editable: true, cols: 4 },
+        { label: "City", name: "currentCity", editable: true, cols: 2 },
+        { label: "District", name: "currentDistrict", editable: true, cols: 2 },
+        { label: "State", name: "currentState", editable: true, cols: 2 },
+        { label: "Country", name: "currentCountry", editable: true, cols: 2 },
+        { label: "Pincode", name: "currentPincode", editable: true, cols: 2 },
 
         { label: "Permanent Address", type: "divider", cols: 12 },
         { label: "Same as Current", name: "isPermanentSameAsCurrent", type: "checkbox", editable: true, cols: 12 },
         { label: "Address Line 1", name: "permanentAddressLine1", editable: true, cols: 6 },
         { label: "Address Line 2", name: "permanentAddressLine2", editable: true, cols: 6 },
-        { label: "City", name: "permanentCity", editable: true, cols: 4 },
-        { label: "District", name: "permanentDistrict", editable: true, cols: 4 },
-        { label: "State", name: "permanentState", editable: true, cols: 4 },
-        { label: "Country", name: "permanentCountry", editable: true, cols: 4 },
-        { label: "Pincode", name: "permanentPincode", editable: true, cols: 4 },
+        { label: "City", name: "permanentCity", editable: true, cols: 2 },
+        { label: "District", name: "permanentDistrict", editable: true, cols: 2 },
+        { label: "State", name: "permanentState", editable: true, cols: 2 },
+        { label: "Country", name: "permanentCountry", editable: true, cols: 2 },
+        { label: "Pincode", name: "permanentPincode", editable: true, cols: 2 },
       ],
       saveButton: saveAddressDetails,
     },
@@ -814,11 +864,11 @@ const StudentDetail = () => {
       title: "Body Details",
       titleColor: "secondary",
       fields: [
-        { label: "Height (cm)", name: "heightCm", type: "number", editable: true, cols: 4 },
-        { label: "Weight (kg)", name: "weightKg", type: "number", editable: true, cols: 4 },
-        { label: "Blood Group", name: "bloodGroup", editable: true, cols: 4 },
-        { label: "Eye Color", name: "eyeColor", editable: true, cols: 4 },
-        { label: "Hair Color", name: "hairColor", editable: true, cols: 4 },
+        { label: "Height (cm)", name: "heightCm", type: "number", editable: true, cols: 2 },
+        { label: "Weight (kg)", name: "weightKg", type: "number", editable: true, cols: 2 },
+        { label: "Blood Group", name: "bloodGroup", editable: true, cols: 2 },
+        { label: "Eye Color", name: "eyeColor", editable: true, cols: 2 },
+        { label: "Hair Color", name: "hairColor", editable: true, cols: 2 },
         { label: "Identification Mark 1", name: "identificationMark1", editable: true, cols: 6 },
         { label: "Identification Mark 2", name: "identificationMark2", editable: true, cols: 6 },
         { label: "Disability", name: "disability", type: "checkbox", editable: true, cols: 4 },
@@ -1105,6 +1155,59 @@ const StudentDetail = () => {
           {message.text}
         </Alert>
       )}
+
+      {/* Profile Completion Progress Card */}
+      <Card className="mb-4 shadow-sm">
+        <CardBody>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h5 className="mb-0">
+              <TbUser className="me-2" />
+              Profile Completion
+            </h5>
+            <span className={`badge bg-${getProgressVariant(profileCompletion.percentage)} fs-6`}>
+              {profileCompletion.percentage}%
+            </span>
+          </div>
+          
+          <ProgressBar 
+            now={profileCompletion.percentage} 
+            variant={getProgressVariant(profileCompletion.percentage)}
+            animated
+            striped
+            style={{ height: '12px' }}
+            className="mb-3"
+          />
+
+          {/* <Row className="g-2">
+            {completionSections.map((section) => {
+              const isCompleted = profileCompletion.data[section.key] === 1;
+              const IconComponent = section.icon;
+              return (
+                <Col xs={6} sm={4} md={3} lg={2} key={section.key}>
+                  <div 
+                    className={`d-flex align-items-center p-2 rounded border ${
+                      isCompleted 
+                        ? 'bg-success bg-opacity-10 border-success text-success' 
+                        : 'bg-light border-secondary text-muted'
+                    }`}
+                    style={{ fontSize: '0.85rem' }}
+                  >
+                    <IconComponent className="me-2" size={18} />
+                    <span className="text-truncate">{section.label}</span>
+                    {isCompleted && (
+                      <span className="ms-auto">✓</span>
+                    )}
+                  </div>
+                </Col>
+              );
+            })}
+          </Row> */}
+{/* 
+          <div className="mt-3 text-muted small">
+            <strong>Completed:</strong> {Object.values(profileCompletion.data).filter(v => v === 1).length} / {Object.keys(profileCompletion.data).length} sections
+          </div> */}
+        </CardBody>
+      </Card>
 
       <DetailPage
         data={sectionData}

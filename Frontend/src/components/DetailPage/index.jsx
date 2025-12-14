@@ -35,7 +35,7 @@ const Field = ({
     if (val === null || val === undefined || val === "") return "N/A";
 
     // Handle boolean values
-    if (type === "boolean") {
+    if (type === "boolean" || type === "checkbox") {
       return val === true || val === "true" ? "Yes" : "No";
     }
 
@@ -66,7 +66,12 @@ const Field = ({
   const displayValue = formatDisplayValue(value);
 
   const handleSave = () => {
-    onEdit?.(editValue);
+    // Convert string back to boolean for checkbox type
+    if (type === "checkbox" || type === "boolean") {
+      onEdit?.(editValue === "true" || editValue === true);
+    } else {
+      onEdit?.(editValue);
+    }
     setIsEditing(false);
   };
 
@@ -75,9 +80,35 @@ const Field = ({
     setIsEditing(false);
   };
 
+  // Handle checkbox toggle directly without edit mode
+  const handleCheckboxChange = (checked) => {
+    onEdit?.(checked);
+  };
+
   useEffect(() => {
     setEditValue(value?.toString() || "");
   }, [value]);
+
+  // Special rendering for checkbox type - inline toggle without edit mode
+  if (type === "checkbox") {
+    return (
+      <div className="mb-2">
+        <Form.Label className="text-muted mb-1 fs-6">{label}</Form.Label>
+        <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center flex-grow-1">
+            <Form.Check
+              type="switch"
+              id={`switch-${fieldName}`}
+              checked={value === true || value === "true"}
+              onChange={(e) => handleCheckboxChange(e.target.checked)}
+              disabled={!editable}
+              label={value === true || value === "true" ? "Yes" : "No"}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-2">
