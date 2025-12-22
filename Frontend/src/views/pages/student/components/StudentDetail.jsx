@@ -1177,35 +1177,6 @@ const StudentDetail = () => {
             style={{ height: '12px' }}
             className="mb-3"
           />
-
-          {/* <Row className="g-2">
-            {completionSections.map((section) => {
-              const isCompleted = profileCompletion.data[section.key] === 1;
-              const IconComponent = section.icon;
-              return (
-                <Col xs={6} sm={4} md={3} lg={2} key={section.key}>
-                  <div 
-                    className={`d-flex align-items-center p-2 rounded border ${
-                      isCompleted 
-                        ? 'bg-success bg-opacity-10 border-success text-success' 
-                        : 'bg-light border-secondary text-muted'
-                    }`}
-                    style={{ fontSize: '0.85rem' }}
-                  >
-                    <IconComponent className="me-2" size={18} />
-                    <span className="text-truncate">{section.label}</span>
-                    {isCompleted && (
-                      <span className="ms-auto">✓</span>
-                    )}
-                  </div>
-                </Col>
-              );
-            })}
-          </Row> */}
-{/* 
-          <div className="mt-3 text-muted small">
-            <strong>Completed:</strong> {Object.values(profileCompletion.data).filter(v => v === 1).length} / {Object.keys(profileCompletion.data).length} sections
-          </div> */}
         </CardBody>
       </Card>
 
